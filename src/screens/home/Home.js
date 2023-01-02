@@ -18,7 +18,7 @@ import AddExpenseModal from '../../components/modals/AddExpenseModal';
 
 const Home = () => {
   //   const isDrawerOpen = useDrawerStatus() === 'open';
-
+  console.log('asdasd');
   const [showExpenseModal, setShowExpenseModal] = useState(false);
   const handleExpenseModal = () => {
     setShowExpenseModal(!showExpenseModal);
