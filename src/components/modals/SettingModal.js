@@ -1,31 +1,21 @@
 import React from 'react';
-import {
-  Text,
-  View,
-  Image,
-  Modal,
-  StyleSheet,
-  SafeAreaView,
-  TouchableOpacity,
-} from 'react-native';
+import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 
-// import Modal from 'react-native-modal';
+import Modal from 'react-native-modal';
 
 import {CommonButton} from '../index';
 import {icons, string, colors, fontSize, hp, wp} from '../../helper/index';
 
-const LoginModal = ({isVisible, onBackdropPress, onClosePress}) => {
+const SettingModal = ({isVisible, onBackdropPress, onClosePress}) => {
   return (
     <Modal
-      visible={isVisible}
+      isVisible={isVisible}
       style={styles.modalView}
-      animationType="slide"
-      // animationIn="slideInUp"
-      // animationOut="slideOutDown"
-      // backdropColor={colors.white}
+      animationIn="slideInUp"
+      animationOut="slideOutDown"
+      backdropColor={colors.white}
       onBackdropPress={onBackdropPress}>
       <View style={styles.container}>
-        <SafeAreaView />
         <TouchableOpacity style={styles.closeBtn} onPress={onClosePress}>
           <Image source={icons.close} style={styles.closeIcon} />
         </TouchableOpacity>
@@ -49,19 +39,19 @@ const LoginModal = ({isVisible, onBackdropPress, onClosePress}) => {
   );
 };
 
-export default LoginModal;
+export default SettingModal;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
+  },
+  modalView: {
+    flex: 1,
     backgroundColor: colors.white,
   },
-  // modalView: {
-  //   flex: 1,
-  // },
   closeBtn: {
-    top: hp(5),
+    top: hp(3.69),
     right: wp(2.67),
     padding: wp(1.6),
     position: 'absolute',

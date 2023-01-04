@@ -1,9 +1,8 @@
 import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 import React from 'react';
-import {fontSize, hp, wp} from '../helper/globalConstant';
-import {colors} from '../helper/colorContant';
-import {icons} from '../helper/iconConstant';
-import Shadow from './Shadow';
+
+import {Shadow} from '../index';
+import {icons, colors, fontSize, hp, wp} from '../../helper/index';
 
 const Header = ({
   title,
@@ -38,40 +37,40 @@ export default Header;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.white,
+    height: hp(7),
     width: wp(100),
-    height: hp(6),
+    paddingLeft: wp(4),
     flexDirection: 'row',
     alignItems: 'center',
-    paddingLeft: wp(4),
+    backgroundColor: colors.white,
   },
   iconLeft: {
-    height: wp(5),
     width: wp(5),
+    height: wp(5),
     resizeMode: 'contain',
     tintColor: colors.grey,
   },
   title: {
-    color: colors.black,
-    fontSize: fontSize(16),
     fontWeight: '700',
-    paddingLeft: wp(5),
+    paddingLeft: wp(6),
+    color: colors.black,
+    fontSize: fontSize(18),
   },
   iconRight: {
-    height: wp(5),
     width: wp(5),
+    height: wp(5),
     resizeMode: 'contain',
     tintColor: colors.grey,
   },
   dropDown: {
-    height: wp(6),
     width: wp(6),
+    height: wp(6),
     resizeMode: 'contain',
     tintColor: colors.grey,
   },
   rightIconView: {
-    position: 'absolute',
     right: wp(5),
     padding: wp(1),
+    position: 'absolute',
   },
 });

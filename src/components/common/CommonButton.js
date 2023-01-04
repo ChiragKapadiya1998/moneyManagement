@@ -1,16 +1,16 @@
-import {StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native';
 import React from 'react';
-import {colors} from '../helper/colorContant';
-import {fontSize, hp, wp} from '../helper/globalConstant';
-import Shadow from './Shadow';
+import {StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native';
+
+import {Shadow} from '../index';
+import {fontSize, hp, wp, colors} from '../../helper/index';
 
 const CommonButton = ({
-  additionalBtnStyle,
-  additionalTitleStyle,
-  onPress,
   title,
   isIcon,
   source,
+  onPress,
+  additionalBtnStyle,
+  additionalTitleStyle,
 }) => {
   return (
     <Shadow>
@@ -30,26 +30,26 @@ export default CommonButton;
 
 const styles = StyleSheet.create({
   btnStyle: {
-    backgroundColor: colors.btnBlue,
     height: hp(5),
     width: wp(90),
-    justifyContent: 'center',
-    alignItems: 'center',
     borderRadius: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: colors.btnBlue,
   },
   btnText: {
-    color: colors.white,
-    fontSize: fontSize(16),
     fontWeight: '800',
     alignSelf: 'center',
+    color: colors.white,
+    fontSize: fontSize(16),
   },
   subBtnView: {
     flexDirection: 'row',
   },
   iconStyle: {
-    height: wp(5.33),
     width: wp(5.33),
-    resizeMode: 'contain',
+    height: wp(5.33),
     marginRight: wp(8),
+    resizeMode: 'contain',
   },
 });

@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet} from 'react-native';
 import DropShadow from 'react-native-drop-shadow';
-import {colors} from '../helper/colorContant';
+import {colors} from '../../helper/index';
 
 function Shadow({shadowStyle, children}) {
   return (

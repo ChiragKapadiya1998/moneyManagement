@@ -10,8 +10,6 @@ import {
 } from 'react-native';
 import React, {useState} from 'react';
 
-// import Modal from 'react-native-modal';
-
 import {Shadow, Header, Calc} from '../index';
 import {
   hp,
@@ -24,16 +22,13 @@ import {
   expenses,
 } from '../../helper/index';
 
-const AddExpenseModal = ({isVisible, onBackPress, onRequestClose}) => {
+import {TabView, SceneMap} from 'react-native-tab-view';
+
+const ChartModal = ({visible, onBackPress, onRequestClose}) => {
   const [isIncome, setIsIncome] = useState(false);
   const [isExpenses, setIsExpenses] = useState(true);
-  const [calculator, setCalculator] = useState(false);
   const [incomeList, setIncomeList] = useState(income);
   const [expensesList, setExpensesList] = useState(expenses);
-
-  const handleCalc = () => {
-    setCalculator(!calculator);
-  };
 
   const showExpenses = () => {
     setIsExpenses(true);
@@ -44,96 +39,35 @@ const AddExpenseModal = ({isVisible, onBackPress, onRequestClose}) => {
     setIsIncome(true);
   };
 
-  const onExpensePress = item => {
-    let selectedExpenseList = expensesList?.map(obj => {
-      return obj?.id === item?.id
-        ? {...obj, selected: !obj?.selected}
-        : {...obj, selected: false};
-    });
-    setExpensesList(selectedExpenseList);
-    setCalculator(true);
+  const SeperatorView = () => {
+    return <View style={styles.SeperatorView} />;
   };
 
-  const onIncomePress = item => {
-    let selectedIncomeList = incomeList?.map(obj => {
-      return obj?.id === item?.id
-        ? {...obj, selected: !obj?.selected}
-        : {...obj, selected: false};
-    });
-    setIncomeList(selectedIncomeList);
-    setCalculator(true);
-  };
-
-  const renderExpenses = ({item}) => {
+  const renderItem = ({item}) => {
     return (
       <View style={styles.renderView}>
-        <TouchableOpacity
-          style={[
-            styles.itemView,
-            {
-              backgroundColor: item.selected ? item.bgColor : colors.lightgrey,
-            },
-          ]}
-          onPress={() => onExpensePress(item)}>
-          <Image
-            source={item.icon}
-            style={[
-              styles.itemIcon,
-              {tintColor: item.selected ? colors.white : colors.grey},
-            ]}
-          />
+        <TouchableOpacity style={styles.minusView}>
+          <Image source={icons.minus} style={styles.minusIcon} />
         </TouchableOpacity>
-        <Text style={[styles.itemText, {color: colors.black}]}>
-          {item.title}
-        </Text>
-      </View>
-    );
-  };
-
-  const renderIncome = ({item}) => {
-    return (
-      <View style={styles.renderView}>
-        <TouchableOpacity
-          style={[
-            styles.itemView,
-            {
-              backgroundColor: item.selected ? item.bgColor : colors.lightgrey,
-            },
-          ]}
-          onPress={() => onIncomePress(item)}>
-          <Image
-            source={item.icon}
-            style={[
-              styles.itemIcon,
-              {tintColor: item.selected ? colors.white : colors.grey},
-            ]}
-          />
-        </TouchableOpacity>
-        <Text style={[styles.itemText, {color: colors.black}]}>
-          {item.title}
-        </Text>
+        <View style={styles.itemView}>
+          <Image source={item.icon} style={styles.itemIcon} />
+        </View>
+        <Text style={[styles.itemText]}>{item.title}</Text>
+        <Image source={icons.menu} style={styles.menuIcon} />
       </View>
     );
   };
 
   return (
-    <Modal
-      visible={isVisible}
-      // animationIn="slideInUp"
-      // animationOut="slideOutDown"
-      animationType="slide"
-      backdropColor={colors.white}
-      style={styles.modalContainer}
-      onRequestClose={onRequestClose}>
+    <Modal visible={false} animationType="slide">
       <View style={styles.container}>
         <SafeAreaView />
         <Shadow>
           <Header
-            title={string.expenses}
+            title={string.categorySettings}
             onLeftPress={onBackPress}
             leftSource={icons.backArrow}
           />
-
           <View style={styles.buttonContainer}>
             <TouchableOpacity
               style={[
@@ -168,54 +102,53 @@ const AddExpenseModal = ({isVisible, onBackPress, onRequestClose}) => {
 
         {isExpenses ? (
           <FlatList
-            numColumns={4}
             data={expensesList}
-            renderItem={renderExpenses}
+            renderItem={renderItem}
             keyExtractor={item => item.id}
+            showsVerticalScrollIndicator={false}
+            ItemSeparatorComponent={SeperatorView}
           />
         ) : (
           <FlatList
-            numColumns={4}
             data={incomeList}
-            renderItem={renderIncome}
+            renderItem={renderItem}
             keyExtractor={item => item.id}
+            showsVerticalScrollIndicator={false}
+            ItemSeparatorComponent={SeperatorView}
           />
         )}
-        {calculator ? <Calc /> : null}
       </View>
     </Modal>
   );
 };
 
-export default AddExpenseModal;
+export default ChartModal;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-  },
-  modalContainer: {
-    flex: 1,
-    alignItems: 'center',
     backgroundColor: colors.white,
   },
   itemView: {
-    width: wp(12),
-    height: wp(12),
+    width: wp(9.5),
+    height: wp(9.5),
+    marginLeft: wp(4),
     alignItems: 'center',
     borderRadius: wp(100),
     justifyContent: 'center',
+    backgroundColor: colors.lightgrey,
   },
   itemIcon: {
-    width: wp(7),
-    height: wp(7),
+    width: wp(5.5),
+    height: wp(5.5),
     resizeMode: 'contain',
     tintColor: colors.grey,
   },
   itemText: {
-    marginTop: hp(1),
-    color: colors.grey,
-    fontSize: fontSize(12),
+    marginLeft: wp(3),
+    color: colors.black,
+    fontSize: fontSize(14),
   },
   catagoryBtn: {
     flex: 1,
@@ -225,8 +158,11 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
   },
   renderView: {
-    padding: wp(4.8),
+    width: wp(100),
     alignItems: 'center',
+    flexDirection: 'row',
+    paddingVertical: wp(2),
+    paddingHorizontal: wp(4),
   },
   titleText: {
     fontSize: fontSize(15),
@@ -236,5 +172,31 @@ const styles = StyleSheet.create({
     width: wp(100),
     flexDirection: 'row',
     backgroundColor: colors.lightgrey,
+  },
+  SeperatorView: {
+    borderWidth: wp(0.1),
+    marginHorizontal: wp(3),
+    borderColor: colors.grey,
+  },
+  minusView: {
+    width: wp(4.5),
+    height: wp(4.5),
+    borderRadius: wp(5),
+    alignItems: 'center',
+    backgroundColor: 'red',
+    justifyContent: 'center',
+  },
+  minusIcon: {
+    width: wp(3),
+    height: hp(2),
+    tintColor: colors.white,
+  },
+  menuIcon: {
+    right: wp(6),
+    width: wp(4),
+    height: wp(4),
+    position: 'absolute',
+    resizeMode: 'contain',
+    tintColor: colors.grey,
   },
 });

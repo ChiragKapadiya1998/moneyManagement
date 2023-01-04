@@ -1,6 +1,4 @@
-import {colors} from './colorContant';
-import {icons} from './iconConstant';
-import {string} from './stringConstant';
+import {colors, icons, string} from './index';
 
 export const expenses = [
   {

@@ -1,17 +1,18 @@
-import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import React, {useState} from 'react';
-import {colors} from '../../helper/colorContant';
-import {string} from '../../helper/stringConstant';
-import {fontSize, hp, wp} from '../../helper/globalConstant';
+import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+
 import Swiper from 'react-native-swiper';
 import {useNavigation} from '@react-navigation/native';
-import CommonButton from '../../components/CommonButton';
-import LoginModal from '../../components/modals/LoginModal';
+
+import {colors, string, fontSize, hp, wp} from '../../helper/index';
+import {CommonButton, LoginModal} from '../../components/index';
 
 const OnBoarding = () => {
   const {navigate} = useNavigation();
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const [showLoginModal, setShowLoginModal] = useState(false);
+
   const handleLoginModal = () => {
     setShowLoginModal(!showLoginModal);
   };
@@ -72,59 +73,59 @@ export default OnBoarding;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.white,
-    justifyContent: 'center',
     alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: colors.white,
   },
   onBoardingTitle: {
     color: colors.black,
     fontSize: fontSize(20),
   },
   onBoardingDesc: {
+    paddingTop: hp(2),
     color: colors.black,
     fontSize: fontSize(15),
-    paddingTop: hp(2),
   },
   skipBtn: {
-    height: hp(2.5),
-    width: wp(10),
-    backgroundColor: colors.lightgrey,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: wp(100),
-    position: 'absolute',
+    zIndex: 1,
     top: hp(6),
     right: wp(5),
-    zIndex: 1,
+    width: wp(10),
+    height: hp(2.5),
+    alignItems: 'center',
+    position: 'absolute',
+    borderRadius: wp(100),
+    justifyContent: 'center',
+    backgroundColor: colors.lightgrey,
   },
   skipText: {
     color: colors.grey,
     fontSize: fontSize(13),
   },
   inActivedot: {
-    backgroundColor: colors.lightgrey,
+    bottom: hp(3),
     width: wp(1.6),
     height: wp(1.6),
     borderRadius: wp(100),
     marginHorizontal: wp(0.8),
-    bottom: hp(3),
+    backgroundColor: colors.lightgrey,
   },
   activeDot: {
-    backgroundColor: colors.title,
+    bottom: hp(3),
     width: wp(2.6),
     height: wp(2.6),
     borderRadius: wp(100),
     marginHorizontal: wp(0.8),
-    bottom: hp(3),
+    backgroundColor: colors.title,
   },
 
   notNow: {
     marginTop: hp(3),
   },
   notNowText: {
+    fontWeight: '800',
     color: colors.grey,
     fontSize: fontSize(15),
-    fontWeight: '800',
   },
   signInBtn: {
     marginTop: hp(40),

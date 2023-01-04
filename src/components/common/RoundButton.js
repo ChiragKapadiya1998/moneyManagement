@@ -1,8 +1,8 @@
-import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import React from 'react';
-import {colors} from '../helper/colorContant';
-import {fontSize, hp, wp} from '../helper/globalConstant';
-import Shadow from './Shadow';
+import {StyleSheet, Text, TouchableOpacity} from 'react-native';
+
+import {Shadow} from '../index';
+import {colors, fontSize, hp, wp} from '../../helper/index';
 
 const RoundButton = ({onPress}) => {
   return (
@@ -23,8 +23,8 @@ const styles = StyleSheet.create({
     width: wp(15),
     height: wp(15),
     alignItems: 'center',
-    borderRadius: wp(100),
     position: 'absolute',
+    borderRadius: wp(100),
     justifyContent: 'center',
     backgroundColor: colors.title,
   },

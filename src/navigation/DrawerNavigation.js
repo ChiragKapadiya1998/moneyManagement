@@ -1,23 +1,20 @@
-// import * as React from 'react';
-// import {NavigationContainer} from '@react-navigation/native';
-// import {createDrawerNavigator} from '@react-navigation/drawer';
+import * as React from 'react';
+import {createDrawerNavigator} from '@react-navigation/drawer';
 
-// import Home from '../screens/home/Home';
-// import OnBoarding from '../screens/onBoarding/OnBoarding';
+import Home from '../screens/home/Home';
 
-// const Drawer = createDrawerNavigator();
+import {CustomDrawer} from '../components';
 
-// const DrawerNavigation = () => {
-//   return (
-//     <NavigationContainer>
-//       <NavigationContainer>
-//         <Drawer.Navigator initialRouteName="Home">
-//           <Drawer.Screen name="Home" component={Home} />
-//           <Drawer.Screen name="OnBoarding" component={OnBoarding} />
-//         </Drawer.Navigator>
-//       </NavigationContainer>
-//     </NavigationContainer>
-//   );
-// };
+const Drawer = createDrawerNavigator();
 
-// export default DrawerNavigation;
+const DrawerNavigation = () => {
+  return (
+    <Drawer.Navigator
+      drawerContent={props => <CustomDrawer {...props} />}
+      screenOptions={{headerShown: false}}>
+      <Drawer.Screen name="Homes" component={Home} />
+    </Drawer.Navigator>
+  );
+};
+
+export default DrawerNavigation;

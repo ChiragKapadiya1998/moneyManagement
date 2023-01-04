@@ -1,36 +1,56 @@
+import React, {useState} from 'react';
 import {
-  StyleSheet,
   Text,
   View,
+  StyleSheet,
   SafeAreaView,
   TouchableOpacity,
+  TextInput,
 } from 'react-native';
-import React, {useState} from 'react';
-import Header from '../../components/Header';
-import {icons} from '../../helper/iconConstant';
-import {colors} from '../../helper/colorContant';
-import {fontSize, hp, wp} from '../../helper/globalConstant';
-import Shadow from '../../components/Shadow';
-import {string} from '../../helper/stringConstant';
-import RoundButton from '../../components/RoundButton';
-// import {useDrawerStatus} from '@react-navigation/drawer';
-import AddExpenseModal from '../../components/modals/AddExpenseModal';
+import {useNavigation} from '@react-navigation/native';
+import {useDrawerStatus} from '@react-navigation/drawer';
+import {icons, colors, string, fontSize, hp, wp} from '../../helper/index';
+import {
+  Header,
+  Shadow,
+  RoundButton,
+  AddExpenseModal,
+} from '../../components/index';
+// import {useDispatch} from 'react-redux';
+// import {addUser} from '../../redux/action/Action';
+import MonthYearPicker from '../../components/common/MonthYearPicker';
 
 const Home = () => {
-  //   const isDrawerOpen = useDrawerStatus() === 'open';
-  console.log('asdasd');
+  const isDrawerOpen = useDrawerStatus() === 'open';
+  const {navigate, openDrawer} = useNavigation();
   const [showExpenseModal, setShowExpenseModal] = useState(false);
+  const [calender, setCalender] = useState(false);
+  const [month, setMonth] = useState();
+  const [year, setYear] = useState();
+
+  console.log('month...', month?.name);
+  console.log('year...', year);
+
   const handleExpenseModal = () => {
     setShowExpenseModal(!showExpenseModal);
   };
+  const handleCalender = () => {
+    setCalender(!calender);
+  };
+
+  // const dispatch = useDispatch();
+  // const [name, setName] = useState('');
+
   return (
     <View style={styles.container}>
       <SafeAreaView />
       <Header
         isDate
-        title={'Calander'}
+        title={`${month?.name} ${year}`}
         leftSource={icons.menu}
+        onLeftPress={() => openDrawer()}
         rightSource={icons.refresh}
+        onDownPress={handleCalender}
       />
       <Shadow>
         <View style={styles.subView}>
@@ -50,22 +70,48 @@ const Home = () => {
           </TouchableOpacity>
         </View>
       </Shadow>
-      <Shadow>
+
+      {/* <TextInput
+        value={name}
+        onChangeText={text => setName(text)}
+        style={{backgroundColor: 'lightgrey', height: 30}}
+      />
+      <TouchableOpacity
+        style={{
+          padding: 10,
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: 'blue',
+          alignSelf: 'center',
+        }}
+        onPress={() => dispatch(addUser(name))}>
+        <Text>Submit</Text>
+      </TouchableOpacity> */}
+      {/* <Shadow>
         <TouchableOpacity style={styles.warningView}>
           <Text style={styles.warnText}>{string.warnText}</Text>
         </TouchableOpacity>
-      </Shadow>
-      <Shadow>
+      </Shadow> */}
+      {/* <Shadow>
         <TouchableOpacity style={styles.listItem}>
           <Text>Food</Text>
           <Text>5000</Text>
         </TouchableOpacity>
-      </Shadow>
-      <RoundButton onPress={handleExpenseModal} />
+      </Shadow> */}
+      {calender && (
+        <MonthYearPicker
+          onChangeYear={text => setYear(text)}
+          onChangeMonth={text => {
+            setMonth(text);
+          }}
+        />
+      )}
       <AddExpenseModal
         isVisible={showExpenseModal}
         onBackPress={handleExpenseModal}
+        onRequestClose={handleExpenseModal}
       />
+      <RoundButton onPress={handleExpenseModal} />
     </View>
   );
 };
@@ -78,54 +124,54 @@ const styles = StyleSheet.create({
     backgroundColor: colors.lightBg,
   },
   subView: {
+    height: hp(12),
+    borderRadius: 5,
+    margin: wp(2.67),
+    alignItems: 'center',
     flexDirection: 'row',
+    borderWidth: wp(0.2),
     backgroundColor: colors.white,
     borderColor: colors.lightgrey,
-    borderWidth: wp(0.2),
-    margin: wp(2.67),
-    height: hp(10),
-    borderRadius: 5,
-    alignItems: 'center',
   },
   verticleSeperator: {
-    backgroundColor: colors.black,
     height: hp(3),
     width: wp(0.1),
+    backgroundColor: colors.black,
   },
   mainText: {
     color: colors.black,
     fontSize: fontSize(13),
   },
   numberText: {
+    marginTop: hp(1),
     color: colors.black,
     fontSize: fontSize(23),
-    marginTop: hp(1),
   },
   btnView: {
     flex: 1,
     alignItems: 'center',
   },
   listItem: {
-    flexDirection: 'row',
-    backgroundColor: colors.white,
-    borderColor: colors.lightgrey,
-    borderWidth: wp(0.2),
-    margin: wp(2.67),
     height: hp(5),
     borderRadius: 5,
-    alignItems: 'center',
+    margin: wp(2.67),
     padding: wp(2.67),
+    borderWidth: wp(0.2),
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderColor: colors.lightgrey,
+    backgroundColor: colors.white,
     justifyContent: 'space-between',
   },
   warningView: {
-    flexDirection: 'row',
-    backgroundColor: colors.warnBg,
-    borderColor: colors.lightgrey,
-    borderWidth: wp(0.2),
-    margin: wp(2.67),
-    borderRadius: 5,
-    alignItems: 'center',
     padding: wp(2),
+    borderRadius: 5,
+    margin: wp(2.67),
+    flexDirection: 'row',
+    borderWidth: wp(0.2),
+    alignItems: 'center',
+    borderColor: colors.lightgrey,
+    backgroundColor: colors.warnBg,
     justifyContent: 'space-between',
   },
   warnText: {
