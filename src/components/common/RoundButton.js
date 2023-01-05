@@ -1,15 +1,17 @@
 import React from 'react';
-import {StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {View, StyleSheet, Text, TouchableOpacity} from 'react-native';
 
 import {Shadow} from '../index';
-import {colors, fontSize, hp, wp} from '../../helper/index';
+import {colors, fontSize, hp, wp, isIos} from '../../helper/index';
 
 const RoundButton = ({onPress}) => {
   return (
     <Shadow>
-      <TouchableOpacity style={styles.roundButton} onPress={onPress}>
-        <Text style={styles.plusStyle}>{'+'}</Text>
-      </TouchableOpacity>
+      <View style={styles.container}>
+        <TouchableOpacity style={styles.roundButton} onPress={onPress}>
+          <Text style={styles.plusStyle}>{'+'}</Text>
+        </TouchableOpacity>
+      </View>
     </Shadow>
   );
 };
@@ -17,13 +19,16 @@ const RoundButton = ({onPress}) => {
 export default RoundButton;
 
 const styles = StyleSheet.create({
-  roundButton: {
-    top: hp(62),
+  container: {
+    flex: 1,
     right: wp(5),
+    position: 'absolute',
+    top: isIos ? hp(88) : hp(85),
+  },
+  roundButton: {
     width: wp(15),
     height: wp(15),
     alignItems: 'center',
-    position: 'absolute',
     borderRadius: wp(100),
     justifyContent: 'center',
     backgroundColor: colors.title,

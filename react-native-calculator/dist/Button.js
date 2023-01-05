@@ -31,8 +31,8 @@ exports.Button = Button;
 var styles = react_native_1.StyleSheet.create({
     container: {
         flex: 1,
+        alignItems: 'center',
         justifyContent: 'center',
-        alignItems: 'center'
     }
 });
 //# sourceMappingURL=Button.js.map

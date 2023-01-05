@@ -19,17 +19,22 @@ import {
 // import {useDispatch} from 'react-redux';
 // import {addUser} from '../../redux/action/Action';
 import MonthYearPicker from '../../components/common/MonthYearPicker';
+import moment from 'moment';
 
 const Home = () => {
   const isDrawerOpen = useDrawerStatus() === 'open';
   const {navigate, openDrawer} = useNavigation();
   const [showExpenseModal, setShowExpenseModal] = useState(false);
   const [calender, setCalender] = useState(false);
-  const [month, setMonth] = useState();
-  const [year, setYear] = useState();
+  const [month, setMonth] = useState(
+    moment().month(new Date().getMonth()).format('MMM'),
+  );
+  const [year, setYear] = useState(new Date().getFullYear());
+  const [isMonth, setIsMonth] = useState(false);
 
   console.log('month...', month?.name);
   console.log('year...', year);
+  console.log('month...====', moment().month(0).format('MMM'));
 
   const handleExpenseModal = () => {
     setShowExpenseModal(!showExpenseModal);
@@ -43,10 +48,11 @@ const Home = () => {
 
   return (
     <View style={styles.container}>
+      <RoundButton onPress={handleExpenseModal} />
       <SafeAreaView />
       <Header
         isDate
-        title={`${month?.name} ${year}`}
+        title={isMonth ? `${month?.name} ${year}` : `${month} ${year}`}
         leftSource={icons.menu}
         onLeftPress={() => openDrawer()}
         rightSource={icons.refresh}
@@ -103,6 +109,7 @@ const Home = () => {
           onChangeYear={text => setYear(text)}
           onChangeMonth={text => {
             setMonth(text);
+            setIsMonth(true);
           }}
         />
       )}
@@ -111,7 +118,6 @@ const Home = () => {
         onBackPress={handleExpenseModal}
         onRequestClose={handleExpenseModal}
       />
-      <RoundButton onPress={handleExpenseModal} />
     </View>
   );
 };

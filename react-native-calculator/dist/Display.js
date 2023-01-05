@@ -12,6 +12,8 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = require("react");
 var react_native_1 = require("react-native");
+const { color } = require("react-native-reanimated");
+const { colors } = require("../../src/helper");
 var FACTOR = 0.5;
 var Display = /** @class */ (function (_super) {
     __extends(Display, _super);
@@ -149,7 +151,8 @@ var styles = react_native_1.StyleSheet.create({
         top: 0,
         bottom: 0,
         right: 0,
-        backgroundColor: 'transparent'
+        backgroundColor: 'transparent',
+        color: colors.black
     }
 });
 //# sourceMappingURL=Display.js.map

@@ -1,6 +1,7 @@
 "use strict";
 import { icons } from "../../src/helper/iconConstant";
 import { Image } from 'react-native';
+import { wp } from "../../src/helper";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -29,6 +30,7 @@ var ActionEnum;
     ActionEnum[ActionEnum["MINUS"] = 4] = "MINUS";
     ActionEnum[ActionEnum["PLUS"] = 5] = "PLUS";
     ActionEnum[ActionEnum["ENTER"] = 6] = "ENTER";
+    // ActionEnum[ActionEnum["DATE"] = 7] = "DATE";
 })(ActionEnum || (ActionEnum = {}));
 var StackKindEnum;
 (function (StackKindEnum) {
@@ -137,7 +139,7 @@ var Calculator = /** @class */ (function (_super) {
           {this.renderNumberButton(btnSize, '7', true)}
           {this.renderNumberButton(btnSize, '8')}
           {this.renderNumberButton(btnSize, '9')}
-          {this.renderActionButton(btnSize, 'Today', )}
+          {this.renderActionButton(btnSize, 'Today')}
         </react_native_1.View>
         <react_native_1.View style={Styles.row}>
           {this.renderNumberButton(btnSize, '4', true)}
@@ -160,7 +162,7 @@ var Calculator = /** @class */ (function (_super) {
                 {!noDecimal &&
             this.renderNumberButton(btnSize, decimalSeparator)}
                 {this.renderNumberButton(btnSize, '0', true)}
-                            {this.renderActionButton(btnSize, <Image source={icons.backspace} style={{height:20, width: 20}}/>, ActionEnum.BACK)}
+                            {this.renderActionButton(btnSize, <Image source={icons.backspace} style={{height:wp(5), width: wp(5)}} resizeMode='contain'/>, ActionEnum.BACK)}
                             <Button_1.Button style={[
             Styles.square,
             {
@@ -174,7 +176,7 @@ var Calculator = /** @class */ (function (_super) {
         ]} textStyle={{
             color: done ? acceptButtonColor : calcButtonColor,
             fontSize: fontSize * 2
-                                }} text={done ? '↲' : <Image source={icons.checkMark} style={{height: 20, width: 20}}/>} onPress={this.calculate}/>
+                                }} text={done ? '↲' : <Image source={icons.checkMark} style={{height:wp(5), width: wp(5), resizeMode: 'contain'}}/>} onPress={this.calculate}/>
             {/* {this.renderNumberButton(btnSize, '000')} */}
               </react_native_1.View>)}
           </react_native_1.View>
@@ -276,18 +278,21 @@ var Calculator = /** @class */ (function (_super) {
                 case ActionEnum.CLEAR:
                     _this.clear();
                     break;
-                case ActionEnum.PLUS:
-                    _this.setSign('+');
-                    break;
-                case ActionEnum.MINUS:
-                    _this.setSign('-');
-                    break;
-                case ActionEnum.MULTIPLY:
-                    _this.setSign('*');
-                    break;
-                case ActionEnum.DIVIDE:
-                    _this.setSign('/');
-                    break;
+                    case ActionEnum.PLUS:
+                        _this.setSign('+');
+                        break;
+                        case ActionEnum.MINUS:
+                            _this.setSign('-');
+                            break;
+                            case ActionEnum.MULTIPLY:
+                                _this.setSign('*');
+                                break;
+                                case ActionEnum.DIVIDE:
+                                    _this.setSign('/');
+                                    break;
+                                    // case ActionEnum.DATE:
+                                    //    onDatePress();
+                                    //    break;
                 case ActionEnum.BACK:
                     if (!_this.stacks.length) {
                         _this.clear();

@@ -91,5 +91,7 @@ export interface CalculatorCommonProps {
    * How many decimal places to round the value
    */
   roundTo?: number
+
+  onDatePress?:(text: string) => void
 }
 export declare const DefaultCommonProps: Partial<CalculatorCommonProps>

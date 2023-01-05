@@ -36,6 +36,7 @@ export interface CalculatorProps extends CalculatorCommonProps {
    * Hide display text field.
    */
   hideDisplay?: boolean
+  onDatePress(done?: boolean,callback?: () => void): void
 }
 interface State {
   text: string
@@ -84,5 +85,6 @@ export declare class Calculator extends React.Component<
   setSign(sign: string): void
   setText(done?: boolean, callback?: () => void): void
   format(num: number): string
+  
 }
 export {}

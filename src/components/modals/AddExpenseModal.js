@@ -31,6 +31,9 @@ const AddExpenseModal = ({isVisible, onBackPress, onRequestClose}) => {
   const [incomeList, setIncomeList] = useState(income);
   const [expensesList, setExpensesList] = useState(expenses);
 
+  const [calculatedNumber, setCalculatedNumber] = useState(0);
+  const [memo, setMemo] = useState('');
+
   const handleCalc = () => {
     setCalculator(!calculator);
   };
@@ -181,7 +184,12 @@ const AddExpenseModal = ({isVisible, onBackPress, onRequestClose}) => {
             keyExtractor={item => item.id}
           />
         )}
-        {calculator ? <Calc /> : null}
+        {calculator ? (
+          <Calc
+            value={calculatedNumber}
+            onTextChange={number => setCalculatedNumber(number)}
+          />
+        ) : null}
       </View>
     </Modal>
   );

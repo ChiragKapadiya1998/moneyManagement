@@ -9,7 +9,9 @@ import {
   TouchableHighlight,
 } from 'react-native';
 // import Modal from 'react-native-modal';
-import {colors, fontSize, hp, icons, wp} from '../../helper';
+import {colors, fontSize, hp, icons, isIos, wp} from '../../helper';
+
+const {width, height} = Dimensions.get('window');
 
 const MonthYearPicker = ({onChangeYear, onChangeMonth, isShow, close}) => {
   const month_data = [
@@ -26,8 +28,6 @@ const MonthYearPicker = ({onChangeYear, onChangeMonth, isShow, close}) => {
     {key: 11, name: 'Nov'},
     {key: 12, name: 'Dec'},
   ];
-
-  const {width, height} = Dimensions.get('window');
 
   const [month, setMonth] = useState(month_data[new Date().getMonth()]);
   const [year, setYear] = useState(new Date().getFullYear());
@@ -48,8 +48,7 @@ const MonthYearPicker = ({onChangeYear, onChangeMonth, isShow, close}) => {
     //     onPress={close}>
     //     <View />
     //   </TouchableHighlight>
-    <View
-      style={{backgroundColor: 'white', position: 'absolute', top: hp(12.7)}}>
+    <View style={styles.container}>
       <View style={styles.yearContainer}>
         <TouchableOpacity
           onPress={() => {
@@ -69,35 +68,24 @@ const MonthYearPicker = ({onChangeYear, onChangeMonth, isShow, close}) => {
       </View>
       <View style={styles.monthContainer}>
         {month_data.map((item, index) => (
-          <View
-            style={[
-              styles.month,
-              {
-                width: width / 6,
-                height: width / 6,
-                borderRadius: wp(100),
-                backgroundColor: colors.white,
-              },
-            ]}>
+          <View style={styles.month}>
             <TouchableOpacity
               key={index}
               onPress={() => {
                 setMonth(item);
                 onChangeMonth(item);
               }}
-              style={{
-                height: wp(10),
-                width: wp(10),
-                borderRadius: wp(100),
-                alignItems: 'center',
-                justifyContent: 'center',
-                backgroundColor:
-                  item.key == month.key ? colors.title : colors.white,
-              }}>
+              style={[
+                styles.monthOnPress,
+                {
+                  backgroundColor:
+                    item.key == month.key ? colors.title : colors.white,
+                },
+              ]}>
               <Text
                 style={{
-                  fontWeight: item.key == month.key ? '700' : '400',
                   color: colors.black,
+                  fontWeight: item.key == month.key ? '700' : '400',
                 }}>
                 {item.name}
               </Text>
@@ -111,6 +99,12 @@ const MonthYearPicker = ({onChangeYear, onChangeMonth, isShow, close}) => {
 };
 
 const styles = {
+  container: {
+    flex: 1,
+    position: 'absolute',
+    backgroundColor: 'white',
+    top: isIos ? hp(12.7) : hp(7.1),
+  },
   yearContainer: {
     height: hp(5),
     padding: wp(2.66),
@@ -120,19 +114,21 @@ const styles = {
     justifyContent: 'space-between',
     borderBottomColor: colors.lightgrey,
   },
-
   monthContainer: {
     flexWrap: 'wrap',
+    alignItems: 'center',
     flexDirection: 'row',
-    alignItems: 'center',
   },
-
   month: {
+    width: width / 6,
+    height: width / 6,
     alignItems: 'center',
+    borderRadius: wp(100),
     justifyContent: 'center',
+    backgroundColor: colors.white,
   },
-
   yearLabel: {
+    color: colors.black,
     fontSize: fontSize(16),
   },
   arrowIcon: {
@@ -140,6 +136,13 @@ const styles = {
     height: wp(6),
     resizeMode: 'contain',
     tintColor: colors.grey,
+  },
+  monthOnPress: {
+    height: wp(10),
+    width: wp(10),
+    alignItems: 'center',
+    borderRadius: wp(100),
+    justifyContent: 'center',
   },
 };
 
