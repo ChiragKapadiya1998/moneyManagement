@@ -23,16 +23,46 @@ import {
   fontSize,
   expenses,
 } from '../../helper/index';
+import moment from 'moment';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import {useDispatch} from 'react-redux';
+import {addData} from '../../redux/action/Action';
 
 const AddExpenseModal = ({isVisible, onBackPress, onRequestClose}) => {
+  const dispatch = useDispatch();
+
   const [isIncome, setIsIncome] = useState(false);
   const [isExpenses, setIsExpenses] = useState(true);
   const [calculator, setCalculator] = useState(false);
   const [incomeList, setIncomeList] = useState(income);
   const [expensesList, setExpensesList] = useState(expenses);
 
+  const [expenseElement, setExpenseElement] = useState('');
+  const [incomeElement, setIncomeElement] = useState('');
+
   const [calculatedNumber, setCalculatedNumber] = useState(0);
+  const [checkCount, setCheckCount] = useState(0);
   const [memo, setMemo] = useState('');
+
+  const [selectedDate, setSelectedDate] = useState(
+    moment(new Date()).format('DD/MM/YYYY'),
+  );
+  const [datePickerVisible, setDatePickerVisible] = useState(false);
+  const today = moment(new Date()).format('DD/MM/YYYY');
+  console.log('today', today);
+  const showDatePicker = () => {
+    setDatePickerVisible(true);
+  };
+  const hideDatePicker = () => {
+    setDatePickerVisible(false);
+  };
+  const handleConfirm = date => {
+    setSelectedDate(moment(date).format('DD/MM/YYYY'));
+    hideDatePicker();
+    console.log('date', date);
+  };
+
+  // console.log('date', moment(`${selectedDate}`).format('MM/DD/YYYY'));
 
   const handleCalc = () => {
     setCalculator(!calculator);
@@ -47,6 +77,39 @@ const AddExpenseModal = ({isVisible, onBackPress, onRequestClose}) => {
     setIsIncome(true);
   };
 
+  console.log('checkcount.....', checkCount);
+  const onCalcPress = () => {
+    setCheckCount(checkCount + 1);
+    if (checkCount % 2 === 0 && checkCount > 0) {
+      handleCalc();
+      setCalculatedNumber(0);
+      setExpenseElement('');
+      setIncomeElement('');
+      setSelectedDate(moment(new Date()).format('DD/MM/YYYY'));
+
+      if (isExpenses) {
+        let data = {
+          id: Math.floor(Math.random() * 99999999),
+          category: 'expense',
+          element: expenseElement,
+          calculatedNumber: calculatedNumber,
+          selectedDate: selectedDate,
+        };
+        dispatch(addData(data));
+      } else {
+        let data = {
+          id: Math.floor(Math.random() * 99999999),
+          category: 'income',
+          element: incomeElement,
+          calculatedNumber: calculatedNumber,
+          selectedDate: selectedDate,
+        };
+        dispatch(addData(data));
+      }
+      onBackPress;
+    }
+  };
+
   const onExpensePress = item => {
     let selectedExpenseList = expensesList?.map(obj => {
       return obj?.id === item?.id
@@ -54,11 +117,19 @@ const AddExpenseModal = ({isVisible, onBackPress, onRequestClose}) => {
         : {...obj, selected: false};
     });
     setExpensesList(selectedExpenseList);
+    if (item?.selected === true) {
+      setExpenseElement(item?.title);
+      console.log('selected title =====> ', expenseElement);
+    }
     setCalculator(true);
   };
 
   const onIncomePress = item => {
     let selectedIncomeList = incomeList?.map(obj => {
+      if (obj?.selected === true) {
+        setIncomeElement(obj?.title);
+        console.log('selected title =====> ', incomeElement);
+      }
       return obj?.id === item?.id
         ? {...obj, selected: !obj?.selected}
         : {...obj, selected: false};
@@ -175,6 +246,7 @@ const AddExpenseModal = ({isVisible, onBackPress, onRequestClose}) => {
             data={expensesList}
             renderItem={renderExpenses}
             keyExtractor={item => item.id}
+            showsVerticalScrollIndicator={false}
           />
         ) : (
           <FlatList
@@ -182,15 +254,27 @@ const AddExpenseModal = ({isVisible, onBackPress, onRequestClose}) => {
             data={incomeList}
             renderItem={renderIncome}
             keyExtractor={item => item.id}
+            showsVerticalScrollIndicator={false}
           />
         )}
         {calculator ? (
           <Calc
+            onCalc={onCalcPress}
             value={calculatedNumber}
             onTextChange={number => setCalculatedNumber(number)}
+            selectedDate={'Today'}
+            onDatePickerPress={showDatePicker}
           />
         ) : null}
       </View>
+      <DateTimePickerModal
+        mode="date"
+        onConfirm={handleConfirm}
+        onCancel={hideDatePicker}
+        isVisible={datePickerVisible}
+        maximumDate={new Date()}
+        date={selectedDate ? new Date(selectedDate) : undefined}
+      />
     </Modal>
   );
 };

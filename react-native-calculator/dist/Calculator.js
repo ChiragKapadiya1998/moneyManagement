@@ -1,7 +1,7 @@
 "use strict";
 import { icons } from "../../src/helper/iconConstant";
 import { Image } from 'react-native';
-import { wp } from "../../src/helper";
+import { hp, isIos, wp } from "../../src/helper";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -54,7 +54,7 @@ var Calculator = /** @class */ (function (_super) {
         var _a = this.props, keyboardHeight = _a.keyboardHeight, hideDisplay = _a.hideDisplay;
         var _b = this.props, displayHeight = _b.displayHeight, height = _b.height, width = _b.width;
         if (!height) {
-            height = window.height - window.y;
+            height = isIos ? window.height - window.y + hp(5.4) : window.height - window.y + hp(7.7);  // edit
         }
         if (!width) {
             width = window.width - window.x;
@@ -66,7 +66,7 @@ var Calculator = /** @class */ (function (_super) {
         }
         else {
             if (displayHeight || hideDisplay) {
-                height = (height - (displayHeight || 0)) / 5;
+                height = height  / 4;
             }
             else {
                 height = height / 6;
@@ -124,17 +124,17 @@ var Calculator = /** @class */ (function (_super) {
             _this.display = e;
         }} style={{ color: displayColor, textAlign: displayTextAlign }}/>
           </react_native_1.View>)}
-        <react_native_1.View style={[
+        {/* <react_native_1.View style={[
             Styles.row,
             hideDisplay
                 ? { borderTopWidth: 1, borderTopColor: borderColor }
                 : undefined
-        ]}>
+        ]}> */}
           {/* {this.renderActionButton(btnSize, 'C', ActionEnum.CLEAR, true)} */}
           {/* {this.renderActionButton(btnSize, '/', ActionEnum.DIVIDE)} */}
           {/* {this.renderActionButton(btnSize, '*', ActionEnum.MULTIPLY)} */}
           {/* {this.renderActionButton(btnSize, '❮', ActionEnum.BACK)} */}
-        </react_native_1.View>
+        {/* </react_native_1.View> */}
         <react_native_1.View style={Styles.row}>
           {this.renderNumberButton(btnSize, '7', true)}
           {this.renderNumberButton(btnSize, '8')}
@@ -157,7 +157,7 @@ var Calculator = /** @class */ (function (_super) {
             </react_native_1.View>
             {noDecimal ? (<react_native_1.View style={Styles.row}>
                 {this.renderNumberButton(btnSize, '0', true)}
-                {this.renderNumberButton(btnSize, '000', false, 2)}
+                {/* {this.renderNumberButton(btnSize, '000', false, 2)} */}
               </react_native_1.View>) : (<react_native_1.View style={Styles.row}>
                 {!noDecimal &&
             this.renderNumberButton(btnSize, decimalSeparator)}
@@ -483,7 +483,7 @@ var Styles = react_native_1.StyleSheet.create({
     square: {
         borderStyle: 'solid',
         borderRightWidth: 1,
-        borderBottomWidth: 1
+        borderBottomWidth: 1,
     }
 });
 //# sourceMappingURL=Calculator.js.map

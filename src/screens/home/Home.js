@@ -2,10 +2,11 @@ import React, {useState} from 'react';
 import {
   Text,
   View,
+  Image,
+  FlatList,
   StyleSheet,
   SafeAreaView,
   TouchableOpacity,
-  TextInput,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useDrawerStatus} from '@react-navigation/drawer';
@@ -15,13 +16,23 @@ import {
   Shadow,
   RoundButton,
   AddExpenseModal,
+  LoginModal,
 } from '../../components/index';
 // import {useDispatch} from 'react-redux';
 // import {addUser} from '../../redux/action/Action';
 import MonthYearPicker from '../../components/common/MonthYearPicker';
 import moment from 'moment';
+import {useSelector} from 'react-redux';
 
 const Home = () => {
+  const userData = useSelector(state => state?.data?.userData);
+  console.log('userData ======> ', userData);
+
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const handleLoginModal = () => {
+    setShowLoginModal(!showLoginModal);
+  };
+
   const isDrawerOpen = useDrawerStatus() === 'open';
   const {navigate, openDrawer} = useNavigation();
   const [showExpenseModal, setShowExpenseModal] = useState(false);
@@ -32,15 +43,57 @@ const Home = () => {
   const [year, setYear] = useState(new Date().getFullYear());
   const [isMonth, setIsMonth] = useState(false);
 
-  console.log('month...', month?.name);
-  console.log('year...', year);
-  console.log('month...====', moment().month(0).format('MMM'));
+  const expenseArray = userData?.filter(obj => {
+    if (obj?.category === 'expense') {
+      return obj;
+    }
+  });
+  const incomeArray = userData?.filter(obj => {
+    if (obj?.category === 'income') {
+      return obj;
+    }
+  });
+
+  const expenseTotal = expenseArray?.reduce((acc, value) => {
+    return acc + Number(value.calculatedNumber);
+  }, 0);
+  console.log('expenseTotal----------', expenseTotal);
+
+  const incomeTotal = incomeArray?.reduce((acc, value) => {
+    return acc + Number(value.calculatedNumber);
+  }, 0);
+  console.log('incomeTotal----------', incomeTotal);
+
+  // const [incomeTotal, setIncomeTotal] = useState(expense);
+  // const [expenseTotal, setExpenseTotal] = useState(income);
+
+  // console.log('incomeTotal----------', incomeTotal);
+  // console.log('expenseTotal----------', expenseTotal);
+
+  // console.log('month...', month?.name);
+  // console.log('year...', year);
+  // console.log('month...====', moment().month(0).format('MMM'));
 
   const handleExpenseModal = () => {
     setShowExpenseModal(!showExpenseModal);
   };
   const handleCalender = () => {
     setCalender(!calender);
+  };
+
+  const renderData = ({item}) => {
+    return (
+      <Shadow>
+        <TouchableOpacity style={styles.listItem}>
+          <Text style={{color: 'black'}}>{item?.element}</Text>
+          <Text style={{color: item?.category == 'income' ? 'green' : 'red'}}>
+            {item?.category === 'income'
+              ? item?.calculatedNumber
+              : '-' + item?.calculatedNumber}
+          </Text>
+        </TouchableOpacity>
+      </Shadow>
+    );
   };
 
   // const dispatch = useDispatch();
@@ -62,48 +115,42 @@ const Home = () => {
         <View style={styles.subView}>
           <TouchableOpacity style={styles.btnView}>
             <Text style={styles.mainText}>{string.income}</Text>
-            <Text style={styles.numberText}>{'0'}</Text>
+            <Text style={styles.numberText}>{incomeTotal}</Text>
           </TouchableOpacity>
           <View style={styles.verticleSeperator} />
           <TouchableOpacity style={styles.btnView}>
             <Text style={styles.mainText}>{string.expenses}</Text>
-            <Text style={styles.numberText}>{'0'}</Text>
+            <Text style={styles.numberText}>{expenseTotal}</Text>
           </TouchableOpacity>
           <View style={styles.verticleSeperator} />
           <TouchableOpacity style={styles.btnView}>
             <Text style={styles.mainText}>{string.balance}</Text>
-            <Text style={styles.numberText}>{'0'}</Text>
+            <Text style={styles.numberText}>{incomeTotal - expenseTotal}</Text>
           </TouchableOpacity>
         </View>
       </Shadow>
 
-      {/* <TextInput
-        value={name}
-        onChangeText={text => setName(text)}
-        style={{backgroundColor: 'lightgrey', height: 30}}
-      />
-      <TouchableOpacity
-        style={{
-          padding: 10,
-          alignItems: 'center',
-          justifyContent: 'center',
-          backgroundColor: 'blue',
-          alignSelf: 'center',
-        }}
-        onPress={() => dispatch(addUser(name))}>
-        <Text>Submit</Text>
-      </TouchableOpacity> */}
-      {/* <Shadow>
-        <TouchableOpacity style={styles.warningView}>
+      <Shadow>
+        <TouchableOpacity style={styles.warningView} onPress={handleLoginModal}>
+          <Image source={icons.warning} style={styles.warnIcon} />
           <Text style={styles.warnText}>{string.warnText}</Text>
         </TouchableOpacity>
-      </Shadow> */}
+      </Shadow>
+
+      {userData?.length !== 0 && (
+        <FlatList
+          data={userData}
+          renderItem={renderData}
+          keyExtractor={item => item.id}
+        />
+      )}
       {/* <Shadow>
         <TouchableOpacity style={styles.listItem}>
-          <Text>Food</Text>
-          <Text>5000</Text>
+          <Text style={{color: 'black'}}>{userData?.expenseElement}</Text>
+          <Text style={{color: 'black'}}>{userData?.calculatedNumber}</Text>
         </TouchableOpacity>
       </Shadow> */}
+
       {calender && (
         <MonthYearPicker
           onChangeYear={text => setYear(text)}
@@ -118,6 +165,7 @@ const Home = () => {
         onBackPress={handleExpenseModal}
         onRequestClose={handleExpenseModal}
       />
+      <LoginModal isVisible={showLoginModal} onClosePress={handleLoginModal} />
     </View>
   );
 };
@@ -151,20 +199,19 @@ const styles = StyleSheet.create({
   numberText: {
     marginTop: hp(1),
     color: colors.black,
-    fontSize: fontSize(23),
+    fontSize: fontSize(20),
   },
   btnView: {
     flex: 1,
     alignItems: 'center',
   },
   listItem: {
-    height: hp(5),
-    borderRadius: 5,
-    margin: wp(2.67),
-    padding: wp(2.67),
+    padding: wp(2),
+    marginTop: hp(0.5),
     borderWidth: wp(0.2),
     flexDirection: 'row',
     alignItems: 'center',
+    marginHorizontal: wp(2.67),
     borderColor: colors.lightgrey,
     backgroundColor: colors.white,
     justifyContent: 'space-between',
@@ -176,11 +223,18 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     borderWidth: wp(0.2),
     alignItems: 'center',
+    justifyContent: 'flex-start',
     borderColor: colors.lightgrey,
     backgroundColor: colors.warnBg,
-    justifyContent: 'space-between',
+  },
+  warnIcon: {
+    width: wp(4),
+    height: wp(4),
+    resizeMode: 'contain',
+    tintColor: colors.warnText,
   },
   warnText: {
+    marginLeft: wp(1.5),
     color: colors.warnText,
     fontSize: fontSize(12),
   },

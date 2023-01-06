@@ -18,6 +18,7 @@ export const icons = {
   rental: require('../../assets/icons/rental.png'),
   health: require('../../assets/icons/health.png'),
   salary: require('../../assets/icons/salary.png'),
+  warning: require('../../assets/icons/warning.png'),
   upArrow: require('../../assets/icons/upArrow.png'),
   refresh: require('../../assets/icons/refresh.png'),
   coupons: require('../../assets/icons/coupons.png'),
