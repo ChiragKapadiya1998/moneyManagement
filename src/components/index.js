@@ -13,6 +13,7 @@ import CommonButton from './common/CommonButton';
 import SettingModal from './modals/SettingModal';
 import AddExpenseModal from './modals/AddExpenseModal';
 import CategoriesModal from './modals/CategoriesModal';
+import DetailsModal from './modals/DetailsModal';
 
 export {
   Calc,
@@ -28,6 +29,7 @@ export {
   SettingModal,
   CustomDrawer,
   CommonButton,
+  DetailsModal,
   AddExpenseModal,
   CategoriesModal,
 };

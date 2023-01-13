@@ -11,7 +11,12 @@ const DrawerNavigation = () => {
   return (
     <Drawer.Navigator
       drawerContent={props => <CustomDrawer {...props} />}
-      screenOptions={{headerShown: false}}>
+      screenOptions={{
+        headerShown: false,
+        drawerType: 'front',
+        // overlayColor: 'green',
+        // unmountOnBlur: true,
+      }}>
       <Drawer.Screen name="Homes" component={Home} />
     </Drawer.Navigator>
   );

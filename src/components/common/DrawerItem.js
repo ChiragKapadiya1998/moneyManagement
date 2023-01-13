@@ -1,6 +1,7 @@
-import {StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native';
 import React from 'react';
-import {colors, icons, string, fontSize, hp, wp} from '../../helper/index';
+import {StyleSheet, Text, TouchableOpacity, Image} from 'react-native';
+
+import {colors, fontSize, wp} from '../../helper/index';
 
 const DrawerItem = ({title, onPress, source, tintColor, chart}) => {
   return (

@@ -25,11 +25,19 @@ import {
 } from '../../helper/index';
 import moment from 'moment';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
-import {useDispatch} from 'react-redux';
-import {addData} from '../../redux/action/Action';
+import {useDispatch, useSelector} from 'react-redux';
+import {addData, editData} from '../../redux/action/Action';
 
-const AddExpenseModal = ({isVisible, onBackPress, onRequestClose}) => {
+const AddExpenseModal = ({
+  isVisible,
+  onBackPress,
+  onRequestClose,
+  isEdit,
+  dataToEdit,
+}) => {
   const dispatch = useDispatch();
+
+  console.log('dataToEdit==========>', dataToEdit, isEdit);
 
   const [isIncome, setIsIncome] = useState(false);
   const [isExpenses, setIsExpenses] = useState(true);
@@ -40,7 +48,9 @@ const AddExpenseModal = ({isVisible, onBackPress, onRequestClose}) => {
   const [expenseElement, setExpenseElement] = useState('');
   const [incomeElement, setIncomeElement] = useState('');
 
-  const [calculatedNumber, setCalculatedNumber] = useState(0);
+  const [calculatedNumber, setCalculatedNumber] = useState(
+    isEdit ? dataToEdit?.calculatedNumber : 0,
+  );
   const [checkCount, setCheckCount] = useState(0);
   const [memo, setMemo] = useState('');
 
@@ -49,7 +59,9 @@ const AddExpenseModal = ({isVisible, onBackPress, onRequestClose}) => {
   );
   const [datePickerVisible, setDatePickerVisible] = useState(false);
   const today = moment(new Date()).format('DD/MM/YYYY');
+
   console.log('today', today);
+
   const showDatePicker = () => {
     setDatePickerVisible(true);
   };
@@ -78,33 +90,42 @@ const AddExpenseModal = ({isVisible, onBackPress, onRequestClose}) => {
   };
 
   console.log('checkcount.....', checkCount);
+  console.log('date.....', moment(new Date()));
+
   const onCalcPress = () => {
     setCheckCount(checkCount + 1);
     if (checkCount % 2 === 0 && checkCount > 0) {
       handleCalc();
-      setCalculatedNumber(0);
-      setExpenseElement('');
       setIncomeElement('');
+      setExpenseElement('');
+      setCalculatedNumber(0);
+      setMemo('');
       setSelectedDate(moment(new Date()).format('DD/MM/YYYY'));
 
       if (isExpenses) {
         let data = {
-          id: Math.floor(Math.random() * 99999999),
+          id: !isEdit ? Math.floor(Math.random() * 99999999) : dataToEdit?.id,
           category: 'expense',
-          element: expenseElement,
+          memo: expenseElement,
+          element: memo ? memo : expenseElement,
           calculatedNumber: calculatedNumber,
           selectedDate: selectedDate,
         };
-        dispatch(addData(data));
+        {
+          isEdit ? dispatch(editData(data)) : dispatch(addData(data));
+        }
       } else {
         let data = {
-          id: Math.floor(Math.random() * 99999999),
+          id: !isEdit ? Math.floor(Math.random() * 99999999) : dataToEdit?.id,
           category: 'income',
-          element: incomeElement,
+          memo: incomeElement,
+          element: memo ? memo : incomeElement,
           calculatedNumber: calculatedNumber,
           selectedDate: selectedDate,
         };
-        dispatch(addData(data));
+        {
+          isEdit ? dispatch(editData(data)) : dispatch(addData(data));
+        }
       }
       onBackPress;
     }
@@ -264,6 +285,7 @@ const AddExpenseModal = ({isVisible, onBackPress, onRequestClose}) => {
             onTextChange={number => setCalculatedNumber(number)}
             selectedDate={'Today'}
             onDatePickerPress={showDatePicker}
+            onMemoTextChange={text => setMemo(text)}
           />
         ) : null}
       </View>
@@ -273,7 +295,8 @@ const AddExpenseModal = ({isVisible, onBackPress, onRequestClose}) => {
         onCancel={hideDatePicker}
         isVisible={datePickerVisible}
         maximumDate={new Date()}
-        date={selectedDate ? new Date(selectedDate) : undefined}
+        date={new Date()}
+        // date={selectedDate ? new Date(selectedDate) : null}
       />
     </Modal>
   );

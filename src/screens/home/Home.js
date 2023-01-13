@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {
   Text,
   View,
+  Alert,
   Image,
   FlatList,
   StyleSheet,
@@ -17,20 +18,35 @@ import {
   RoundButton,
   AddExpenseModal,
   LoginModal,
+  DetailsModal,
 } from '../../components/index';
 // import {useDispatch} from 'react-redux';
 // import {addUser} from '../../redux/action/Action';
 import MonthYearPicker from '../../components/common/MonthYearPicker';
 import moment from 'moment';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
+import {deleteData} from '../../redux/action/Action';
 
 const Home = () => {
   const userData = useSelector(state => state?.data?.userData);
   console.log('userData ======> ', userData);
 
+  const dispatch = useDispatch();
+
+  const [elementId, setElementId] = useState();
+
+  console.log('elementId', elementId);
+
   const [showLoginModal, setShowLoginModal] = useState(false);
   const handleLoginModal = () => {
     setShowLoginModal(!showLoginModal);
+  };
+
+  const [detailsModal, setDetailsModal] = useState(false);
+  const handleDetailsModal = item => {
+    setDetailsModal(!detailsModal);
+    console.log('ididididid', item?.id);
+    setElementId(item?.id);
   };
 
   const isDrawerOpen = useDrawerStatus() === 'open';
@@ -73,6 +89,29 @@ const Home = () => {
   // console.log('month...', month?.name);
   // console.log('year...', year);
   // console.log('month...====', moment().month(0).format('MMM'));
+  const [showBox, setShowBox] = useState(false);
+  const onDeletePress = () => {
+    return Alert.alert(
+      'Are your sure?',
+      'Are you sure you want to delete this data?',
+      [
+        {
+          text: 'Yes',
+          onPress: () => {
+            dispatch(deleteData(elementId));
+            setShowBox(false);
+            setDetailsModal(false);
+          },
+        },
+        {
+          text: 'No',
+          onPress: () => {
+            setShowBox(false);
+          },
+        },
+      ],
+    );
+  };
 
   const handleExpenseModal = () => {
     setShowExpenseModal(!showExpenseModal);
@@ -84,7 +123,9 @@ const Home = () => {
   const renderData = ({item}) => {
     return (
       <Shadow>
-        <TouchableOpacity style={styles.listItem}>
+        <TouchableOpacity
+          style={styles.listItem}
+          onPress={() => handleDetailsModal(item)}>
           <Text style={{color: 'black'}}>{item?.element}</Text>
           <Text style={{color: item?.category == 'income' ? 'green' : 'red'}}>
             {item?.category === 'income'
@@ -98,7 +139,7 @@ const Home = () => {
 
   // const dispatch = useDispatch();
   // const [name, setName] = useState('');
-
+  console.log('elementId', elementId);
   return (
     <View style={styles.container}>
       <RoundButton onPress={handleExpenseModal} />
@@ -144,12 +185,6 @@ const Home = () => {
           keyExtractor={item => item.id}
         />
       )}
-      {/* <Shadow>
-        <TouchableOpacity style={styles.listItem}>
-          <Text style={{color: 'black'}}>{userData?.expenseElement}</Text>
-          <Text style={{color: 'black'}}>{userData?.calculatedNumber}</Text>
-        </TouchableOpacity>
-      </Shadow> */}
 
       {calender && (
         <MonthYearPicker
@@ -166,6 +201,12 @@ const Home = () => {
         onRequestClose={handleExpenseModal}
       />
       <LoginModal isVisible={showLoginModal} onClosePress={handleLoginModal} />
+      <DetailsModal
+        isVisible={detailsModal}
+        onBackPress={handleDetailsModal}
+        userDetailId={elementId}
+        onDeletePress={() => onDeletePress()}
+      />
     </View>
   );
 };

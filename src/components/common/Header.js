@@ -12,6 +12,7 @@ const Header = ({
   onLeftPress,
   onDownPress,
   onRightPress,
+  rightIconStyle,
 }) => {
   return (
     <Shadow>
@@ -26,7 +27,10 @@ const Header = ({
           </TouchableOpacity>
         )}
         <TouchableOpacity style={styles.rightIconView} onPress={onRightPress}>
-          <Image source={rightSource} style={styles.iconRight} />
+          <Image
+            source={rightSource}
+            style={[styles.iconRight, rightIconStyle]}
+          />
         </TouchableOpacity>
       </View>
     </Shadow>

@@ -14,8 +14,8 @@ const Calc = ({
   onCalc,
   memoValue,
   onTextChange,
-  onChangeText,
   selectedDate,
+  onMemoTextChange,
   onDatePickerPress,
 }) => {
   return (
@@ -26,7 +26,7 @@ const Calc = ({
           value={memoValue}
           placeholder={'Memo'}
           style={styles.textInput}
-          onChangeText={onChangeText}
+          onChangeText={onMemoTextChange}
         />
         <Text style={styles.numberText}>{value}</Text>
       </View>

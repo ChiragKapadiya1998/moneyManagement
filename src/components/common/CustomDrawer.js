@@ -1,25 +1,24 @@
 import React, {useState} from 'react';
 import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
-import {
-  DrawerItemList,
-  DrawerContentScrollView,
-} from '@react-navigation/drawer';
-import {colors, icons, string, fontSize, hp, wp} from '../../helper/index';
-import ChartModal from '../modals/ChartModal';
-import CategoriesModal from '../modals/CategoriesModal';
-import ExportModal from '../modals/ExportModal';
-import SettingModal from '../modals/SettingModal';
-import RatingModal from '../modals/RatingModal';
-import AboutModal from '../modals/AboutModal';
+
+import {DrawerContentScrollView} from '@react-navigation/drawer';
+
 import DrawerItem from './DrawerItem';
+import AboutModal from '../modals/AboutModal';
+import ChartModal from '../modals/ChartModal';
+import ExportModal from '../modals/ExportModal';
+import RatingModal from '../modals/RatingModal';
+import SettingModal from '../modals/SettingModal';
+import CategoriesModal from '../modals/CategoriesModal';
+import {colors, icons, string, fontSize, hp, wp} from '../../helper/index';
 
 const CustomDrawer = props => {
-  const [chartModal, setChartModal] = useState(false);
-  const [categoryModal, setCategoryModal] = useState(false);
-  const [exportModal, setExportModal] = useState(false);
-  const [settingModal, setSettingModal] = useState(false);
-  const [ratingModal, setRatingModal] = useState(false);
   const [aboutModal, setAboutModal] = useState(false);
+  const [chartModal, setChartModal] = useState(false);
+  const [exportModal, setExportModal] = useState(false);
+  const [ratingModal, setRatingModal] = useState(false);
+  const [settingModal, setSettingModal] = useState(false);
+  const [categoryModal, setCategoryModal] = useState(false);
 
   const onChartPress = () => {
     props.navigation.closeDrawer();
@@ -59,7 +58,11 @@ const CustomDrawer = props => {
   };
 
   return (
-    <View style={styles.drawerContainer}>
+    <View
+      style={styles.drawerContainer}
+      // onStartShouldSetResponder={onStartShouldSetResponder}
+      // onStartShouldSetResponder
+    >
       <DrawerContentScrollView
         {...props}
         contentContainerStyle={styles.contentContainerStyle}>

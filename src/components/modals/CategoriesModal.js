@@ -26,7 +26,7 @@ import {
 
 import {TabView, SceneMap} from 'react-native-tab-view';
 
-const AddExpenseModal = ({isVisible, onBackPress, onRequestClose}) => {
+const CategoriesModal = ({isVisible, onBackPress, onRequestClose}) => {
   const [isIncome, setIsIncome] = useState(false);
   const [isExpenses, setIsExpenses] = useState(true);
   const [incomeList, setIncomeList] = useState(income);
@@ -124,7 +124,7 @@ const AddExpenseModal = ({isVisible, onBackPress, onRequestClose}) => {
   );
 };
 
-export default AddExpenseModal;
+export default CategoriesModal;
 
 const styles = StyleSheet.create({
   container: {

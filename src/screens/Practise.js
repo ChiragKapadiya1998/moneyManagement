@@ -3,7 +3,7 @@ import React from 'react';
 
 const Practise = () => {
   return (
-    <View>
+    <View style={styles.container}>
       <Text>Practise</Text>
     </View>
   );
@@ -11,4 +11,8 @@ const Practise = () => {
 
 export default Practise;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});

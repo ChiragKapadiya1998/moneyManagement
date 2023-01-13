@@ -38,9 +38,7 @@ const mainReducer = (state = initialState, action) => {
       };
     case DELETE_DATA:
       return {
-        userData: state?.userData?.filter(
-          item => item?.id !== action?.payload?.id,
-        ),
+        userData: state?.userData?.filter(item => item?.id !== action?.payload),
       };
 
     // Add data
