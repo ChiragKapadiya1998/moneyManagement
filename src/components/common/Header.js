@@ -7,6 +7,7 @@ import {icons, colors, fontSize, hp, wp} from '../../helper/index';
 const Header = ({
   title,
   isDate,
+  isCalendar,
   leftSource,
   rightSource,
   onLeftPress,
@@ -20,11 +21,18 @@ const Header = ({
         <TouchableOpacity onPress={onLeftPress}>
           <Image source={leftSource} style={styles.iconLeft} />
         </TouchableOpacity>
-        <Text style={styles.title}>{title}</Text>
-        {isDate && (
-          <TouchableOpacity onPress={onDownPress}>
-            <Image source={icons.dropDown} style={styles.dropDown} />
+        {isDate ? (
+          <TouchableOpacity
+            onPress={onDownPress}
+            style={{flexDirection: 'row'}}>
+            <Text style={styles.title}>{title}</Text>
+            <Image
+              source={isCalendar ? icons.upArrow : icons.dropDown}
+              style={styles.dropDown}
+            />
           </TouchableOpacity>
+        ) : (
+          <Text style={styles.title}>{title}</Text>
         )}
         <TouchableOpacity style={styles.rightIconView} onPress={onRightPress}>
           <Image

@@ -17,8 +17,10 @@ export const colors = {
   lightred: '#FF6C92',
   extraGrey: '#FCFCFC',
   lightgrey: '#EEEEEE',
+  darkBrown: '#591814',
   drawerText: '#38373B',
   lightGreen: '#43EDEC',
-  darkBrown: '#591814',
+  expenseRed: '#AA000A',
+  incomeGreen: '#1A8900',
   lightTitle: 'rgba(239,208,77,0.3)',
 };

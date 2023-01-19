@@ -1,14 +1,4 @@
-import {
-  ADD_DATA,
-  DELETE_DATA,
-  DELETE_EXPENSE_DATA,
-  DELETE_INCOME_DATA,
-  EDIT_DATA,
-  EDIT_EXPENSE_DATA,
-  EDIT_INCOME_DATA,
-  EXPENSE_DATA,
-  INCOME_DATA,
-} from './Types';
+import {ADD_DATA, DELETE_DATA, EDIT_DATA} from './Types';
 
 export const addData = request => async dispatch => {
   dispatch({type: ADD_DATA, payload: request});

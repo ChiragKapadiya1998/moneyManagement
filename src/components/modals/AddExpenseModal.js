@@ -34,10 +34,13 @@ const AddExpenseModal = ({
   onRequestClose,
   isEdit,
   dataToEdit,
+  month,
+  year,
 }) => {
   const dispatch = useDispatch();
 
-  console.log('dataToEdit==========>', dataToEdit, isEdit);
+  // console.log('dataToEdit==========>', dataToEdit, isEdit);
+  console.log('month year in modal==========>', month, year);
 
   const [isIncome, setIsIncome] = useState(false);
   const [isExpenses, setIsExpenses] = useState(true);
@@ -47,12 +50,12 @@ const AddExpenseModal = ({
 
   const [expenseElement, setExpenseElement] = useState('');
   const [incomeElement, setIncomeElement] = useState('');
-
   const [calculatedNumber, setCalculatedNumber] = useState(
     isEdit ? dataToEdit?.calculatedNumber : 0,
   );
-  const [checkCount, setCheckCount] = useState(0);
   const [memo, setMemo] = useState('');
+  const [elementIcon, setElementIcon] = useState();
+  const [bgColor, setBgColor] = useState();
 
   const [selectedDate, setSelectedDate] = useState(
     moment(new Date()).format('DD/MM/YYYY'),
@@ -71,15 +74,13 @@ const AddExpenseModal = ({
   const handleConfirm = date => {
     setSelectedDate(moment(date).format('DD/MM/YYYY'));
     hideDatePicker();
-    console.log('date', date);
+    // console.log('date', date);
   };
 
   // console.log('date', moment(`${selectedDate}`).format('MM/DD/YYYY'));
-
   const handleCalc = () => {
     setCalculator(!calculator);
   };
-
   const showExpenses = () => {
     setIsExpenses(true);
     setIsIncome(false);
@@ -89,12 +90,11 @@ const AddExpenseModal = ({
     setIsIncome(true);
   };
 
-  console.log('checkcount.....', checkCount);
-  console.log('date.....', moment(new Date()));
+  // console.log('date.....', moment(new Date()));
+  // console.log('calculatedNumber.....', calculatedNumber);
 
   const onCalcPress = () => {
-    setCheckCount(checkCount + 1);
-    if (checkCount % 2 === 0 && checkCount > 0) {
+    if (!calculatedNumber.includes('+' || '-')) {
       handleCalc();
       setIncomeElement('');
       setExpenseElement('');
@@ -102,30 +102,29 @@ const AddExpenseModal = ({
       setMemo('');
       setSelectedDate(moment(new Date()).format('DD/MM/YYYY'));
 
-      if (isExpenses) {
-        let data = {
-          id: !isEdit ? Math.floor(Math.random() * 99999999) : dataToEdit?.id,
-          category: 'expense',
-          memo: expenseElement,
-          element: memo ? memo : expenseElement,
-          calculatedNumber: calculatedNumber,
-          selectedDate: selectedDate,
-        };
-        {
-          isEdit ? dispatch(editData(data)) : dispatch(addData(data));
-        }
-      } else {
-        let data = {
-          id: !isEdit ? Math.floor(Math.random() * 99999999) : dataToEdit?.id,
-          category: 'income',
-          memo: incomeElement,
-          element: memo ? memo : incomeElement,
-          calculatedNumber: calculatedNumber,
-          selectedDate: selectedDate,
-        };
-        {
-          isEdit ? dispatch(editData(data)) : dispatch(addData(data));
-        }
+      let selectedExpenseList = expensesList?.map(obj => {
+        return {...obj, selected: false};
+      });
+      setExpensesList(selectedExpenseList);
+
+      let selectedIncomeList = incomeList?.map(obj => {
+        return {...obj, selected: false};
+      });
+      setIncomeList(selectedIncomeList);
+
+      let data = {
+        id: !isEdit ? Math.floor(Math.random() * 99999999) : dataToEdit?.id,
+        monthYear: month + year,
+        category: isExpenses ? 'expense' : 'income',
+        selectedDate: selectedDate,
+        memo: expenseElement,
+        element: memo ? memo : isExpenses ? expenseElement : incomeElement,
+        calculatedNumber: calculatedNumber,
+        elementIcon: elementIcon,
+        bgColor: bgColor,
+      };
+      {
+        isEdit ? dispatch(editData(data)) : dispatch(addData(data));
       }
       onBackPress;
     }
@@ -133,30 +132,35 @@ const AddExpenseModal = ({
 
   const onExpensePress = item => {
     let selectedExpenseList = expensesList?.map(obj => {
-      return obj?.id === item?.id
-        ? {...obj, selected: !obj?.selected}
-        : {...obj, selected: false};
+      if (obj?.id === item?.id) {
+        setExpenseElement(item?.title);
+        setElementIcon(item?.icon);
+        setBgColor(item?.bgColor);
+        return {...obj, selected: true};
+      } else {
+        return {...obj, selected: false};
+      }
     });
-    setExpensesList(selectedExpenseList);
-    if (item?.selected === true) {
-      setExpenseElement(item?.title);
-      console.log('selected title =====> ', expenseElement);
-    }
     setCalculator(true);
+    setExpensesList(selectedExpenseList);
   };
+
+  // console.log('expensesList==========>', expensesList);
+  // console.log('incomeList==========>', incomeList);
 
   const onIncomePress = item => {
     let selectedIncomeList = incomeList?.map(obj => {
-      if (obj?.selected === true) {
-        setIncomeElement(obj?.title);
-        console.log('selected title =====> ', incomeElement);
+      if (obj?.id === item?.id) {
+        setIncomeElement(item?.title);
+        setElementIcon(item?.icon);
+        setBgColor(item?.bgColor);
+        return {...obj, selected: true};
+      } else {
+        return {...obj, selected: false};
       }
-      return obj?.id === item?.id
-        ? {...obj, selected: !obj?.selected}
-        : {...obj, selected: false};
     });
-    setIncomeList(selectedIncomeList);
     setCalculator(true);
+    setIncomeList(selectedIncomeList);
   };
 
   const renderExpenses = ({item}) => {
@@ -214,8 +218,6 @@ const AddExpenseModal = ({
   return (
     <Modal
       visible={isVisible}
-      // animationIn="slideInUp"
-      // animationOut="slideOutDown"
       animationType="slide"
       backdropColor={colors.white}
       style={styles.modalContainer}
@@ -283,7 +285,7 @@ const AddExpenseModal = ({
             onCalc={onCalcPress}
             value={calculatedNumber}
             onTextChange={number => setCalculatedNumber(number)}
-            selectedDate={'Today'}
+            selectedDate={selectedDate}
             onDatePickerPress={showDatePicker}
             onMemoTextChange={text => setMemo(text)}
           />
