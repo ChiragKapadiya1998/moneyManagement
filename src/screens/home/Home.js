@@ -106,15 +106,33 @@ const Home = () => {
     );
   };
 
+  const sortByDate = userData.sort((a, b) => {
+    // return b.selectedDate - a.selectedDate;
+    console.log('a.....', moment(a.selectedDate).format(`YYYY-MM-DD`));
+    console.log('b.....', moment(b.selectedDate).format(`YYYY-MM-DD`));
+    return (
+      moment(b.selectedDate).format(`YYYY-MM-DD`) -
+      moment(a.selectedDate).format(`YYYY-MM-DD`)
+    );
+  });
+
+  const sortedByDate = userData.sort(
+    (a, b) =>
+      Date.parse(new Date(b.selectedDate.split('/').reverse().join('-'))) -
+      Date.parse(new Date(a.selectedDate.split('/').reverse().join('-'))),
+  );
+
+  console.log('sortByDate....', sortedByDate);
+
   const sortingData = Object.values(
-    userData.reduce((acc, item) => {
-      if (!acc[moment(item?.selectedDate).format(`DD/MM/YYYY`)]) {
-        acc[moment(item?.selectedDate).format(`DD/MM/YYYY`)] = {
+    sortedByDate.reduce((acc, item) => {
+      if (!acc[moment(item?.selectedDate).format(`DD-MM-YYYY`)]) {
+        acc[moment(item?.selectedDate).format(`DD-MM-YYYY`)] = {
           title: item?.selectedDate,
           data: [],
         };
       }
-      acc[moment(item.selectedDate).format(`DD/MM/YYYY`)]?.data.push(item);
+      acc[moment(item.selectedDate).format(`DD-MM-YYYY`)]?.data.push(item);
       return acc || [];
     }, {}),
   );
@@ -128,7 +146,7 @@ const Home = () => {
           <View style={styles.boxTitleView}>
             <Text style={styles.boxHeaderText}>
               {/* {moment(item.title).format('DD/MM')} */}
-              {item.title}
+              {moment(item.title).format(`DD/MM/YYYY`)}
             </Text>
             <View style={styles.boxTitleSubView}>
               {/* <Text style={styles.boxHeaderText}>{'Income:'}</Text>
@@ -214,27 +232,38 @@ const Home = () => {
           </TouchableOpacity>
         </View>
       </Shadow>
-
       <Shadow>
         <TouchableOpacity style={styles.warningView} onPress={handleLoginModal}>
           <Image source={icons.warning} style={styles.warnIcon} />
           <Text style={styles.warnText}>{string.warnText}</Text>
         </TouchableOpacity>
       </Shadow>
-
-      {userData?.length !== 0 && (
-        <FlatList
-          data={sortingData}
-          renderItem={renderData}
-          keyExtractor={item => item?.id}
-          showsVerticalScrollIndicator={false}
-          ListFooterComponent={() => {
-            return <View style={{height: hp(12.5)}} />;
-          }}
-        />
-      )}
+      {/* {userData?.length !== 0 && ( */}
+      <FlatList
+        data={sortingData}
+        renderItem={renderData}
+        keyExtractor={item => item?.id}
+        showsVerticalScrollIndicator={false}
+        ListFooterComponent={() => {
+          return <View style={{height: hp(12.5)}} />;
+        }}
+        ListEmptyComponent={() => {
+          return (
+            <View
+              style={{
+                justifyContent: 'center',
+                alignItems: 'center',
+                // backgroundColor: 'lightgrey',
+                flex: 1,
+                marginTop: 100,
+              }}>
+              <Text>{'No data found.'}</Text>
+            </View>
+          );
+        }}
+      />
+      {/* // )} */}
       {/* </ScrollView> */}
-
       {calender && (
         <MonthYearPicker
           onChangeYear={text => setYear(text)}

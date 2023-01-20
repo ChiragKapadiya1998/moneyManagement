@@ -1,3 +1,4 @@
+import moment from 'moment';
 import React from 'react';
 import {
   View,
@@ -34,7 +35,18 @@ const Calc = ({
         activeOpacity={1}
         style={styles.dateButton}
         onPress={onDatePickerPress}>
-        <Text style={styles.dateText}>{selectedDate}</Text>
+        <Text style={styles.dateText}>
+          {moment(new Date()).format('DD/MM/YYYY') ===
+          moment(selectedDate).format('DD/MM/YYYY')
+            ? 'Today'
+            : moment(selectedDate).format(`DD/MM`)}
+        </Text>
+        <Text style={styles.yearText}>
+          {moment(new Date()).format('DD/MM/YYYY') ===
+          moment(selectedDate).format('DD/MM/YYYY')
+            ? moment(selectedDate).format(`DD/MM`)
+            : moment(selectedDate).format(`YYYY`)}
+        </Text>
         {/* {selectedDate !== moment(new Date()).format('DD/MM/YYYY') && (
           <Text style={styles.yearText}>
             {moment(selectedDate).format('YYYY')}
@@ -104,7 +116,7 @@ const styles = StyleSheet.create({
   yearText: {
     color: colors.grey,
     marginTop: hp(0.5),
-    fontSize: fontSize(12),
+    fontSize: fontSize(11),
   },
 });
 

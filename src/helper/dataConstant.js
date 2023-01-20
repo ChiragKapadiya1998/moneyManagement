@@ -138,3 +138,11 @@ export const income = [
     selected: false,
   },
 ];
+
+export const starArray = [
+  {id: 1, isSelected: false, feedback: 'Strongly dislike'},
+  {id: 2, isSelected: false, feedback: 'Dislike'},
+  {id: 3, isSelected: false, feedback: 'Neither'},
+  {id: 4, isSelected: false, feedback: 'Like'},
+  {id: 5, isSelected: false, feedback: 'Strongly like'},
+];

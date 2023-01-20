@@ -130,6 +130,7 @@ const CustomDrawer = props => {
       <RatingModal
         isVisible={ratingModal}
         onClosePress={() => setRatingModal(false)}
+        onBackdropPress={() => setRatingModal(false)}
       />
       <AboutModal
         isVisible={aboutModal}

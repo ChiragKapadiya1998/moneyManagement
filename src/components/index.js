@@ -11,9 +11,10 @@ import RatingModal from './modals/RatingModal';
 import CustomDrawer from './common/CustomDrawer';
 import CommonButton from './common/CommonButton';
 import SettingModal from './modals/SettingModal';
+import DetailsModal from './modals/DetailsModal';
+import FeedBackModal from './modals/FeedBackModal';
 import AddExpenseModal from './modals/AddExpenseModal';
 import CategoriesModal from './modals/CategoriesModal';
-import DetailsModal from './modals/DetailsModal';
 
 export {
   Calc,
@@ -30,6 +31,7 @@ export {
   CustomDrawer,
   CommonButton,
   DetailsModal,
+  FeedBackModal,
   AddExpenseModal,
   CategoriesModal,
 };

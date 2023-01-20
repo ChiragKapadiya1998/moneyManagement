@@ -57,13 +57,11 @@ const AddExpenseModal = ({
   const [elementIcon, setElementIcon] = useState();
   const [bgColor, setBgColor] = useState();
 
-  const [selectedDate, setSelectedDate] = useState(
-    moment(new Date()).format('DD/MM/YYYY'),
-  );
+  const [selectedDate, setSelectedDate] = useState(moment(new Date()).format());
   const [datePickerVisible, setDatePickerVisible] = useState(false);
-  const today = moment(new Date()).format('DD/MM/YYYY');
+  const today = moment(new Date()).format();
 
-  console.log('today', today);
+  console.log('today,,,,,,', today);
 
   const showDatePicker = () => {
     setDatePickerVisible(true);
@@ -72,7 +70,7 @@ const AddExpenseModal = ({
     setDatePickerVisible(false);
   };
   const handleConfirm = date => {
-    setSelectedDate(moment(date).format('DD/MM/YYYY'));
+    setSelectedDate(moment(date).format());
     hideDatePicker();
     // console.log('date', date);
   };
@@ -100,7 +98,7 @@ const AddExpenseModal = ({
       setExpenseElement('');
       setCalculatedNumber(0);
       setMemo('');
-      setSelectedDate(moment(new Date()).format('DD/MM/YYYY'));
+      setSelectedDate(moment(new Date()).format());
 
       let selectedExpenseList = expensesList?.map(obj => {
         return {...obj, selected: false};
@@ -230,7 +228,6 @@ const AddExpenseModal = ({
             onLeftPress={onBackPress}
             leftSource={icons.backArrow}
           />
-
           <View style={styles.buttonContainer}>
             <TouchableOpacity
               style={[

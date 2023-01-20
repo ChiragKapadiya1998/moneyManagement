@@ -9,6 +9,7 @@ const Header = ({
   isDate,
   isCalendar,
   leftSource,
+  customTitle,
   rightSource,
   onLeftPress,
   onDownPress,
@@ -32,7 +33,7 @@ const Header = ({
             />
           </TouchableOpacity>
         ) : (
-          <Text style={styles.title}>{title}</Text>
+          <Text style={[styles.title, customTitle]}>{title}</Text>
         )}
         <TouchableOpacity style={styles.rightIconView} onPress={onRightPress}>
           <Image

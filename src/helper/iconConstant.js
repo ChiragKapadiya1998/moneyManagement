@@ -42,5 +42,7 @@ export const icons = {
   backspace: require('../../assets/icons/backspace.png'),
   leftArrow: require('../../assets/icons/leftArrow.png'),
   rightArrow: require('../../assets/icons/rightArrow.png'),
+  yellowStar: require('../../assets/icons/yellowStar.png'),
+  rightUpArrow: require('../../assets/icons/rightUpArrow.png'),
   entertainment: require('../../assets/icons/entertainment.png'),
 };

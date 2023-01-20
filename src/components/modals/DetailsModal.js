@@ -96,7 +96,7 @@ const DetailsModal = ({
                   {userDetailData?.calculatedNumber}
                 </Text>
                 <Text style={styles.detailText}>
-                  {userDetailData?.selectedDate}
+                  {moment(userDetailData?.selectedDate).format(`DD/MM/YYYY`)}
                 </Text>
                 <Text style={styles.detailText}>{userDetailData?.element}</Text>
               </View>

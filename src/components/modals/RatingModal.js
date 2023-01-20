@@ -1,40 +1,67 @@
-import React from 'react';
-import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
+import React, {useState} from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  FlatList,
+} from 'react-native';
 
 import Modal from 'react-native-modal';
+import {starArray} from '../../helper/dataConstant';
 
-import {CommonButton} from '../index';
 import {icons, string, colors, fontSize, hp, wp} from '../../helper/index';
+import FeedBackModal from './FeedBackModal';
 
-const RatingModal = ({isVisible, onBackdropPress, onClosePress}) => {
+const RatingModal = ({isVisible, onBackdropPress}) => {
+  const [showFeedBackModal, setShowFeedBackModal] = useState(false);
+
+  const handlefeedBackModal = () => {
+    setShowFeedBackModal(!showFeedBackModal);
+  };
+
+  const onStarPress = () => {
+    handlefeedBackModal();
+  };
+
+  const renderStars = () => {
+    return (
+      <TouchableOpacity onPress={onStarPress}>
+        <Image source={icons.star} style={styles.starStyle} />
+      </TouchableOpacity>
+    );
+  };
   return (
     <Modal
       isVisible={isVisible}
       style={styles.modalView}
-      animationIn="slideInUp"
-      animationOut="slideOutDown"
-      backdropColor={colors.white}
+      animationIn="fadeIn"
+      animationOut="fadeOut"
+      backdropOpacity={0.5}
       onBackdropPress={onBackdropPress}>
       <View style={styles.container}>
-        <TouchableOpacity style={styles.closeBtn} onPress={onClosePress}>
-          <Image source={icons.close} style={styles.closeIcon} />
-        </TouchableOpacity>
-        <Text style={styles.mainText}>{string.moneyManager}</Text>
-        <CommonButton
-          isIcon
-          source={icons.facebook}
-          title={string.facebookLogin}
-          additionalBtnStyle={styles.fbBtn}
-          additionalTitleStyle={styles.fbText}
-        />
-        <CommonButton
-          isIcon
-          source={icons.google}
-          title={string.googleLogin}
-          additionalBtnStyle={styles.googleBtn}
-          additionalTitleStyle={styles.googleText}
-        />
+        <View style={styles.titleView}>
+          <Text style={styles.mainText}>{string.ratingUs}</Text>
+          <TouchableOpacity onPress={onBackdropPress}>
+            <Image source={icons.close} style={styles.closeBtn} />
+          </TouchableOpacity>
+        </View>
+        <Text style={styles.subText}>{string.ratingDesc}</Text>
+        <View style={styles.starView}>
+          <FlatList
+            horizontal
+            data={starArray}
+            scrollEnabled={false}
+            renderItem={renderStars}
+          />
+        </View>
+        <Image source={icons.rightUpArrow} style={styles.rightUpArrow} />
       </View>
+      <FeedBackModal
+        isVisible={showFeedBackModal}
+        onClosePress={handlefeedBackModal}
+      />
     </Modal>
   );
 };
@@ -43,43 +70,57 @@ export default RatingModal;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    alignItems: 'center',
-  },
-  modalView: {
-    flex: 1,
+    width: wp(85),
+    padding: wp(5.33),
+    borderRadius: wp(1),
     backgroundColor: colors.white,
   },
-  closeBtn: {
-    top: hp(3.69),
-    right: wp(2.67),
-    padding: wp(1.6),
-    position: 'absolute',
-    borderRadius: wp(100),
-  },
-  closeIcon: {
-    width: wp(5.33),
-    height: wp(5.33),
-    tintColor: colors.grey,
+  modalView: {
+    alignItems: 'center',
   },
   mainText: {
-    marginTop: hp(30),
     color: colors.black,
-    fontSize: fontSize(30),
+    fontSize: fontSize(22),
+    marginBottom: hp(1.23),
   },
-  fbBtn: {
-    marginTop: hp(40),
-    backgroundColor: colors.fbMain,
+  subText: {
+    color: colors.grey,
+    marginTop: hp(0.5),
+    lineHeight: hp(2.4),
+    fontSize: fontSize(16),
   },
-  fbText: {
-    fontWeight: '500',
-  },
-  googleBtn: {
+  okBtn: {
     marginTop: hp(1.5),
-    backgroundColor: colors.lightgrey,
+    alignItems: 'flex-end',
   },
-  googleText: {
-    fontWeight: '500',
-    color: colors.black,
+  okText: {
+    fontWeight: '700',
+    color: colors.title,
+    fontSize: fontSize(14),
+  },
+  starStyle: {
+    width: wp(9),
+    height: wp(9),
+    tintColor: colors.title,
+    marginHorizontal: wp(1.33),
+  },
+  starView: {
+    paddingTop: hp(2.5),
+    alignItems: 'center',
+  },
+  rightUpArrow: {
+    width: wp(21),
+    height: hp(5),
+    marginRight: wp(12),
+    resizeMode: 'contain',
+    alignSelf: 'flex-end',
+  },
+  titleView: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  closeBtn: {
+    width: wp(5),
+    height: wp(5),
   },
 });
