@@ -16,18 +16,26 @@ import FeedBackModal from './FeedBackModal';
 
 const RatingModal = ({isVisible, onBackdropPress}) => {
   const [showFeedBackModal, setShowFeedBackModal] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState(null);
 
   const handlefeedBackModal = () => {
     setShowFeedBackModal(!showFeedBackModal);
   };
+  console.log('selectedIndex...', selectedIndex);
+  // const onStarPress = index => {
+  //   console.log('star press index...', index);
+  //   setSelectedIndex(index);
+  //   // handlefeedBackModal();
+  // };
 
-  const onStarPress = () => {
-    handlefeedBackModal();
-  };
-
-  const renderStars = () => {
+  const renderStars = ({item, index}) => {
+    console.log('star index...', item, index);
     return (
-      <TouchableOpacity onPress={onStarPress}>
+      <TouchableOpacity
+        onPress={() => {
+          setSelectedIndex(index);
+          handlefeedBackModal();
+        }}>
         <Image source={icons.star} style={styles.starStyle} />
       </TouchableOpacity>
     );
@@ -61,6 +69,7 @@ const RatingModal = ({isVisible, onBackdropPress}) => {
       <FeedBackModal
         isVisible={showFeedBackModal}
         onClosePress={handlefeedBackModal}
+        selectedIndex={selectedIndex}
       />
     </Modal>
   );

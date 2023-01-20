@@ -124,7 +124,7 @@ const AddExpenseModal = ({
       {
         isEdit ? dispatch(editData(data)) : dispatch(addData(data));
       }
-      onBackPress;
+      onBackPress();
     }
   };
 

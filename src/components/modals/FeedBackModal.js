@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   Text,
   View,
@@ -17,13 +17,44 @@ import {icons, string, colors, fontSize, hp, wp} from '../../helper/index';
 import Shadow from '../common/Shadow';
 import Header from '../common/Header';
 
-const FeedBackModal = ({isVisible, onClosePress}) => {
+const FeedBackModal = ({isVisible, onClosePress, selectedIndex}) => {
   const [updateStar, setUpdateStar] = useState(starArray);
   const [feedback, setFeedback] = useState('');
   const [feedBackText, setFeedBackText] = useState('');
   console.log('updateStar...', updateStar);
+  console.log('selectedIndex in feedbackmodal...', selectedIndex);
 
-  const onSubmitPress = () => {};
+  const onSubmitPress = () => {
+    onClosePress();
+    let clearStar = updateStar.map(item => {
+      return {...item, isSelected: false};
+    });
+    setUpdateStar(clearStar);
+  };
+
+  useEffect(() => {
+    let getStarArray = updateStar.map(item => {
+      if (item.id <= selectedIndex + 1) {
+        if (item.id == selectedIndex + 1) {
+          setFeedback(item?.feedback);
+        }
+        return {...item, isSelected: true};
+      } else {
+        return {...item, isSelected: false};
+      }
+    });
+    setUpdateStar(getStarArray);
+    console.log('getStarArray...', getStarArray);
+  }, [isVisible]);
+
+  // const getStarArray = updateStar.map(item => {
+  //   if (item.id <= selectedIndex + 1) {
+  //     return {...item, isSelected: true};
+  //   }
+  //   return item;
+  // });
+  // setUpdateStar(getStarArray);
+  // console.log('getStarArray...', getStarArray);
 
   const onStarPress = (item, index) => {
     let updatedNewStar = updateStar.map(obj => {
@@ -70,7 +101,6 @@ const FeedBackModal = ({isVisible, onClosePress}) => {
             style={{marginTop: 100}}
             keyExtractor={item => item.id}
             renderItem={({item, index}) => {
-              console.log('item,,,', item);
               return (
                 <TouchableOpacity
                   style={{marginHorizontal: wp(2.6)}}
@@ -102,7 +132,7 @@ const FeedBackModal = ({isVisible, onClosePress}) => {
         <Text style={styles.feedbackText}>{string.feedbackDesc}</Text>
         <CommonButton
           title={string.submit}
-          onPress={onClosePress}
+          onPress={onSubmitPress}
           additionalBtnStyle={styles.submitBtn}
           additionalTitleStyle={styles.submitText}
         />

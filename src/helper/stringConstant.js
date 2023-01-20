@@ -23,6 +23,7 @@ export const string = {
   shopping: 'Shopping',
   expenses: 'Expenses',
   clothing: 'Clothing',
+  settings: 'Settings',
   vegetable: 'Vegetable',
   insurance: 'Insurance',
   education: 'Education',
