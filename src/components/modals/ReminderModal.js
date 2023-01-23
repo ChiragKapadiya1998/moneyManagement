@@ -18,7 +18,11 @@ import Shadow from '../common/Shadow';
 import Header from '../common/Header';
 import moment from 'moment';
 import {useDispatch, useSelector} from 'react-redux';
-import {addReminder, deleteReminder} from '../../redux/action/Action';
+import {
+  addReminder,
+  deleteReminder,
+  updateReminder,
+} from '../../redux/action/Action';
 
 const ReminderModal = ({isVisible, onBackPress}) => {
   const dispatch = useDispatch();
@@ -66,6 +70,7 @@ const ReminderModal = ({isVisible, onBackPress}) => {
   //   });
   //   setReminderArray(deleteReminder);
   // };
+
   const onDeletePress = item => {
     dispatch(deleteReminder(item?.id));
   };
@@ -99,12 +104,17 @@ const ReminderModal = ({isVisible, onBackPress}) => {
           thumbColor={item?.isSwitched ? colors.title : colors.lightgrey}
           trackColor={{false: colors.grey, true: colors.lightTitle}}
           onValueChange={() => {
-            let updateSwitch = reminderList.map(obj => {
-              if (obj?.id == item?.id)
-                return {...obj, isSwitched: !item?.isSwitched};
-            });
-            dispatch(deleteReminder(updateSwitch));
+            dispatch(updateReminder(item?.id));
           }}
+
+          // onValueChange={() => {
+          //   let updateSwitch = reminderList.filter(obj => {
+          //     if (obj?.id == item?.id)
+          //       return {...obj, isSwitched: !item?.isSwitched};
+          //   });
+          //   console.log('updateSwitch******', updateSwitch);
+          //   dispatch(updateReminder(updateSwitch));
+          // }}
           // onValueChange={() => {
           //   let updateSwitch = reminderArray.map(obj => {
           //     if (obj?.id == item?.id)

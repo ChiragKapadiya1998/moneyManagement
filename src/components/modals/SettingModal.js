@@ -13,6 +13,7 @@ import Shadow from '../common/Shadow';
 import Header from '../common/Header';
 import ReminderModal from './ReminderModal';
 import {useSelector} from 'react-redux';
+import moment from 'moment';
 
 const SettingModal = ({isVisible, onClosePress}) => {
   const reminderList = useSelector(state => state?.data?.reminder);
@@ -40,7 +41,20 @@ const SettingModal = ({isVisible, onClosePress}) => {
         </Shadow>
         <Pressable style={styles.ReminderView} onPress={handleReminderModal}>
           <Text style={styles.reminderTitle}>{'Smart reminder'}</Text>
-          <Text style={styles.reminderText}>{'Fire notification at...'}</Text>
+          <Text style={styles.reminderText}>
+            {listOfReminder?.length === 0
+              ? 'no reminder'
+              : 'Fire notification at '}
+            {listOfReminder.map((i, index) => {
+              console.log('INDEX', index);
+              return (
+                <Text>
+                  {moment(i.time).format('hh:mm') +
+                    (listOfReminder.length != index + 1 ? ', ' : '')}
+                </Text>
+              );
+            })}
+          </Text>
         </Pressable>
       </View>
       <ReminderModal

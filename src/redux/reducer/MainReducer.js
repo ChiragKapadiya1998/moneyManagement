@@ -52,11 +52,20 @@ const mainReducer = (state = initialState, action) => {
         ...state,
         reminder: [...state?.reminder, action?.payload],
       };
+
     case DELETE_REMINDER:
       return {
         reminder: state?.reminder?.filter(item => item?.id !== action?.payload),
       };
 
+    // case UPDATE_REMINDER:
+    //   const updateReminder = state?.reminder?.map(item => {
+    //     return item?.id == action?.payload?.id ? action.payload : item;
+    //   });
+    //   return {
+    //     ...state,
+    //     reminder: updateReminder,
+    //   };
     case UPDATE_REMINDER:
       const updateReminder = state?.reminder?.map(item => {
         return item?.id == action?.payload
@@ -67,16 +76,6 @@ const mainReducer = (state = initialState, action) => {
         ...state,
         reminder: updateReminder,
       };
-    // case UPDATE_REMINDER:
-    //   const updateReminder = state?.reminder?.map(item => {
-    //     return item?.id == action?.payload
-    //       ? {...item, isSwitched: !item?.isSwitched}
-    //       : item;
-    //   });
-    //   return {
-    //     ...state,
-    //     reminder: updateReminder,
-    //   };
 
     // Add data
     // case EXPENSE_DATA:
