@@ -8,10 +8,14 @@ import {
   ADD_DATA,
   EDIT_DATA,
   DELETE_DATA,
+  ADD_REMINDER,
+  DELETE_REMINDER,
+  UPDATE_REMINDER,
 } from '../action/Types';
 
 const initialState = {
   userData: [],
+  reminder: [],
   // expense: [],
   // income: [],
 };
@@ -19,6 +23,7 @@ const initialState = {
 const mainReducer = (state = initialState, action) => {
   console.log('action is....', action);
   console.log('expense is....', state?.userData);
+  console.log('Reminder is....', state?.reminder);
 
   switch (action.type) {
     case ADD_DATA:
@@ -40,6 +45,38 @@ const mainReducer = (state = initialState, action) => {
       return {
         userData: state?.userData?.filter(item => item?.id !== action?.payload),
       };
+
+    case ADD_REMINDER:
+      console.log('Add expense is....', state?.reminder);
+      return {
+        ...state,
+        reminder: [...state?.reminder, action?.payload],
+      };
+    case DELETE_REMINDER:
+      return {
+        reminder: state?.reminder?.filter(item => item?.id !== action?.payload),
+      };
+
+    case UPDATE_REMINDER:
+      const updateReminder = state?.reminder?.map(item => {
+        return item?.id == action?.payload
+          ? {...item, isSwitched: !item?.isSwitched}
+          : item;
+      });
+      return {
+        ...state,
+        reminder: updateReminder,
+      };
+    // case UPDATE_REMINDER:
+    //   const updateReminder = state?.reminder?.map(item => {
+    //     return item?.id == action?.payload
+    //       ? {...item, isSwitched: !item?.isSwitched}
+    //       : item;
+    //   });
+    //   return {
+    //     ...state,
+    //     reminder: updateReminder,
+    //   };
 
     // Add data
     // case EXPENSE_DATA:

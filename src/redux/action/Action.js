@@ -1,4 +1,11 @@
-import {ADD_DATA, DELETE_DATA, EDIT_DATA} from './Types';
+import {
+  ADD_DATA,
+  ADD_REMINDER,
+  DELETE_DATA,
+  DELETE_REMINDER,
+  EDIT_DATA,
+  UPDATE_REMINDER,
+} from './Types';
 
 export const addData = request => async dispatch => {
   dispatch({type: ADD_DATA, payload: request});
@@ -11,6 +18,19 @@ export const editData = request => async dispatch => {
 export const deleteData = request => async dispatch => {
   dispatch({type: DELETE_DATA, payload: request});
   console.log('addExpense request...', request);
+};
+
+export const addReminder = request => async dispatch => {
+  dispatch({type: ADD_REMINDER, payload: request});
+  console.log('addReminder request...', request);
+};
+export const deleteReminder = request => async dispatch => {
+  dispatch({type: DELETE_REMINDER, payload: request});
+  console.log('deleteReminder request...', request);
+};
+export const updateReminder = request => async dispatch => {
+  dispatch({type: UPDATE_REMINDER, payload: request});
+  console.log('updateReminder request...', request);
 };
 
 // // ADD DATA

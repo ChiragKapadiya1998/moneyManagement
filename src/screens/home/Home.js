@@ -106,17 +106,17 @@ const Home = () => {
     );
   };
 
-  const sortByDate = userData.sort((a, b) => {
+  const sortByDate = userData?.sort((a, b) => {
     // return b.selectedDate - a.selectedDate;
-    console.log('a.....', moment(a.selectedDate).format(`YYYY-MM-DD`));
-    console.log('b.....', moment(b.selectedDate).format(`YYYY-MM-DD`));
+    // console.log('a.....', moment(a.selectedDate).format(`YYYY-MM-DD`));
+    // console.log('b.....', moment(b.selectedDate).format(`YYYY-MM-DD`));
     return (
       moment(b.selectedDate).format(`YYYY-MM-DD`) -
       moment(a.selectedDate).format(`YYYY-MM-DD`)
     );
   });
 
-  const sortedByDate = userData.sort(
+  const sortedByDate = userData?.sort(
     (a, b) =>
       Date.parse(new Date(b.selectedDate.split('/').reverse().join('-'))) -
       Date.parse(new Date(a.selectedDate.split('/').reverse().join('-'))),
@@ -125,7 +125,7 @@ const Home = () => {
   console.log('sortByDate....', sortedByDate);
 
   const sortingData = Object.values(
-    sortedByDate.reduce((acc, item) => {
+    sortedByDate?.reduce((acc, item) => {
       if (!acc[moment(item?.selectedDate).format(`DD-MM-YYYY`)]) {
         acc[moment(item?.selectedDate).format(`DD-MM-YYYY`)] = {
           title: item?.selectedDate,

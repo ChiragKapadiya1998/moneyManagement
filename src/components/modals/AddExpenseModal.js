@@ -295,7 +295,7 @@ const AddExpenseModal = ({
         isVisible={datePickerVisible}
         maximumDate={new Date()}
         date={new Date()}
-        // date={selectedDate ? new Date(selectedDate) : null}
+        display="inline"
       />
     </Modal>
   );

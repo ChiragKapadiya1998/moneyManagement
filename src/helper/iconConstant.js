@@ -9,6 +9,7 @@ export const icons = {
   info: require('../../assets/icons/info.png'),
   star: require('../../assets/icons/star.png'),
   edit: require('../../assets/icons/edit.png'),
+  plus: require('../../assets/icons/plus.png'),
   close: require('../../assets/icons/close.png'),
   bills: require('../../assets/icons/bills.png'),
   fruit: require('../../assets/icons/fruit.png'),
