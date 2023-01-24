@@ -12,12 +12,13 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
+import moment from 'moment';
+import {useDispatch, useSelector} from 'react-redux';
+
 import {icons, string, colors, fontSize, wp} from '../../helper/index';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import Shadow from '../common/Shadow';
 import Header from '../common/Header';
-import moment from 'moment';
-import {useDispatch, useSelector} from 'react-redux';
 import {
   addReminder,
   deleteReminder,
@@ -26,32 +27,20 @@ import {
 
 const ReminderModal = ({isVisible, onBackPress}) => {
   const dispatch = useDispatch();
-  const reminderList = useSelector(state => state?.data?.reminder);
-  console.log('reminderList', reminderList);
 
-  const [reminderArray, setReminderArray] = useState(reminderList);
-  console.log('reminderArray', reminderArray);
+  const reminderList = useSelector(state => state?.data?.reminder);
+  console.log('reminderList======>', reminderList);
 
   const [timePickerVisible, setTimePickerVisible] = useState(false);
   const [selectedTime, setSelectedTime] = useState(new Date());
+  console.log('selectedTime...', selectedTime);
+
   const showTimePicker = () => {
     setTimePickerVisible(true);
   };
   const hideTimePicker = () => {
     setTimePickerVisible(false);
   };
-
-  // const handleConfirm = time => {
-  //   console.log('timetimeimte..', moment(time).format('hh:mm'));
-  //   setSelectedTime(new Date(time));
-  //   reminderArray?.push({
-  //     id: Math.floor(Math.random() * 99999999),
-  //     isSwitched: true,
-  //     time: moment(selectedTime).format(),
-  //   });
-  //   console.log('reminderArray...', reminderArray);
-  //   hideTimePicker();
-  // };
 
   const handleConfirm = time => {
     setSelectedTime(new Date(time));
@@ -64,29 +53,10 @@ const ReminderModal = ({isVisible, onBackPress}) => {
     hideTimePicker();
   };
 
-  // const onDeletePress = item => {
-  //   let deleteReminder = reminderArray.filter(obj => {
-  //     if (obj?.id !== item?.id) return obj;
-  //   });
-  //   setReminderArray(deleteReminder);
-  // };
+  const onDeletePress = item => dispatch(deleteReminder(item?.id));
 
-  const onDeletePress = item => {
-    dispatch(deleteReminder(item?.id));
-  };
-
-  console.log('selectedTime...', selectedTime);
-
-  // const listOfReminder = reminderArray.filter(i => {
-  //   if (i?.isSwitched == true) return i;
-  // });
-  // console.log('listOfReminder,,,,', listOfReminder);
-
-  // console.log('time,,,,', moment(selectedTime).format('hh:mm'));
-  // console.log('Time,,,,', moment(selectedTime).format('HH:MM'));
-
-  const renderReminder = ({item, index}) => {
-    console.log('item========>>>', item, index);
+  const renderReminder = ({item}) => {
+    console.log('item========>>>', item);
     console.log('item?.id========>>>', item?.id);
     return (
       <View style={styles.reminderView}>
@@ -106,25 +76,6 @@ const ReminderModal = ({isVisible, onBackPress}) => {
           onValueChange={() => {
             dispatch(updateReminder(item?.id));
           }}
-
-          // onValueChange={() => {
-          //   let updateSwitch = reminderList.filter(obj => {
-          //     if (obj?.id == item?.id)
-          //       return {...obj, isSwitched: !item?.isSwitched};
-          //   });
-          //   console.log('updateSwitch******', updateSwitch);
-          //   dispatch(updateReminder(updateSwitch));
-          // }}
-          // onValueChange={() => {
-          //   let updateSwitch = reminderArray.map(obj => {
-          //     if (obj?.id == item?.id)
-          //       return {...obj, isSwitched: !item?.isSwitched};
-          //     return obj;
-          //   });
-          //   setReminderArray(updateSwitch);
-
-          //   console.log('updateSwitch========>>>', updateSwitch);
-          // }}
         />
       </View>
     );

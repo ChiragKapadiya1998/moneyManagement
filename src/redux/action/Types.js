@@ -1,10 +1,3 @@
-export const EXPENSE_DATA = 'EXPENSE_DATA';
-export const INCOME_DATA = 'INCOME_DATA';
-export const EDIT_INCOME_DATA = 'EDIT_INCOME_DATA';
-export const EDIT_EXPENSE_DATA = 'EDIT_EXPENSE_DATA';
-export const DELETE_INCOME_DATA = 'DELETE_INCOME_DATA';
-export const DELETE_EXPENSE_DATA = 'DELETE_EXPENSE_DATA';
-
 export const ADD_DATA = 'ADD_DATA';
 export const EDIT_DATA = 'EDIT_DATA';
 export const DELETE_DATA = 'DELETE_DATA';

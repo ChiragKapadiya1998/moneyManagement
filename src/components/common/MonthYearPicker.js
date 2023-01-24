@@ -48,7 +48,7 @@ const MonthYearPicker = ({onChangeYear, onChangeMonth, isShow, close}) => {
     //     onPress={close}>
     //     <View />
     //   </TouchableHighlight>
-    <View style={styles.container}>
+    <View style={[styles.container, styles.shadowStyle]}>
       <View style={styles.yearContainer}>
         <TouchableOpacity
           onPress={() => {
@@ -68,7 +68,7 @@ const MonthYearPicker = ({onChangeYear, onChangeMonth, isShow, close}) => {
       </View>
       <View style={styles.monthContainer}>
         {month_data.map((item, index) => (
-          <View style={styles.month}>
+          <View style={styles.month} key={item?.key}>
             <TouchableOpacity
               key={index}
               onPress={() => {
@@ -104,6 +104,15 @@ const styles = {
     position: 'absolute',
     backgroundColor: 'white',
     top: isIos ? hp(12.7) : hp(7.1),
+  },
+  shadowStyle: {
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.4,
+    shadowColor: colors.grey,
+    elevation: 10,
   },
   yearContainer: {
     height: hp(5),

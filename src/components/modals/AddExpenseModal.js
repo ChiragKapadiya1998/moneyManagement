@@ -29,18 +29,15 @@ import {useDispatch, useSelector} from 'react-redux';
 import {addData, editData} from '../../redux/action/Action';
 
 const AddExpenseModal = ({
+  year,
+  month,
+  isEdit,
   isVisible,
+  dataToEdit,
   onBackPress,
   onRequestClose,
-  isEdit,
-  dataToEdit,
-  month,
-  year,
 }) => {
   const dispatch = useDispatch();
-
-  // console.log('dataToEdit==========>', dataToEdit, isEdit);
-  console.log('month year in modal==========>', month, year);
 
   const [isIncome, setIsIncome] = useState(false);
   const [isExpenses, setIsExpenses] = useState(true);
@@ -59,9 +56,6 @@ const AddExpenseModal = ({
 
   const [selectedDate, setSelectedDate] = useState(moment(new Date()).format());
   const [datePickerVisible, setDatePickerVisible] = useState(false);
-  const today = moment(new Date()).format();
-
-  console.log('today,,,,,,', today);
 
   const showDatePicker = () => {
     setDatePickerVisible(true);
@@ -72,10 +66,8 @@ const AddExpenseModal = ({
   const handleConfirm = date => {
     setSelectedDate(moment(date).format());
     hideDatePicker();
-    // console.log('date', date);
   };
 
-  // console.log('date', moment(`${selectedDate}`).format('MM/DD/YYYY'));
   const handleCalc = () => {
     setCalculator(!calculator);
   };
@@ -87,9 +79,6 @@ const AddExpenseModal = ({
     setIsExpenses(false);
     setIsIncome(true);
   };
-
-  // console.log('date.....', moment(new Date()));
-  // console.log('calculatedNumber.....', calculatedNumber);
 
   const onCalcPress = () => {
     if (!calculatedNumber.includes('+' || '-')) {
@@ -115,7 +104,7 @@ const AddExpenseModal = ({
         monthYear: month + year,
         category: isExpenses ? 'expense' : 'income',
         selectedDate: selectedDate,
-        memo: expenseElement,
+        memo: isExpenses ? expenseElement : incomeElement,
         element: memo ? memo : isExpenses ? expenseElement : incomeElement,
         calculatedNumber: calculatedNumber,
         elementIcon: elementIcon,
@@ -142,9 +131,6 @@ const AddExpenseModal = ({
     setCalculator(true);
     setExpensesList(selectedExpenseList);
   };
-
-  // console.log('expensesList==========>', expensesList);
-  // console.log('incomeList==========>', incomeList);
 
   const onIncomePress = item => {
     let selectedIncomeList = incomeList?.map(obj => {

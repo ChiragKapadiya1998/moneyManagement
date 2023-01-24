@@ -48,7 +48,7 @@ const SettingModal = ({isVisible, onClosePress}) => {
             {listOfReminder.map((i, index) => {
               console.log('INDEX', index);
               return (
-                <Text>
+                <Text key={i.id}>
                   {moment(i.time).format('hh:mm') +
                     (listOfReminder.length != index + 1 ? ', ' : '')}
                 </Text>

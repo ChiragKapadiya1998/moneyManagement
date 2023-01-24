@@ -21,6 +21,7 @@ export const icons = {
   rental: require('../../assets/icons/rental.png'),
   health: require('../../assets/icons/health.png'),
   salary: require('../../assets/icons/salary.png'),
+  noData: require('../../assets/icons/noData.png'),
   upArrow: require('../../assets/icons/upArrow.png'),
   warning: require('../../assets/icons/warning.png'),
   upArrow: require('../../assets/icons/upArrow.png'),

@@ -28,6 +28,7 @@ export const string = {
   insurance: 'Insurance',
   education: 'Education',
   ratingUs: 'Rating Us!',
+  noData: 'No data found.',
   reminder: 'Smart Reminder',
   moneyManager: 'Money Manager',
   entertainment: 'Entertainment',

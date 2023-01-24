@@ -9,20 +9,32 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-// import Modal from 'react-native-modal';
-
 import {CommonButton} from '../index';
 import {icons, string, colors, fontSize, hp, wp} from '../../helper/index';
 
+// import {GoogleSignin} from '@react-native-google-signin/google-signin';
+
+// GoogleSignin.configure({
+//   scopes: ['email'],
+//   offlineAccess: true,
+//   webClientId:
+//     '143151469788-8co7l023m1glf87btsebv46925kqam74.apps.googleusercontent.com',
+// });
+
 const LoginModal = ({isVisible, onBackdropPress, onClosePress}) => {
+  const onGooglePress = async () => {
+    // await GoogleSignin.hasPlayServices();
+    // const {idToken} = await GoogleSignin.signIn();
+    // const credential = auth.GoogleAuthProvider.credential(idToken);
+    // let rnFirebase = await auth().signInWithCredential(credential);
+    // console.log('Called GoogleSignin', rnFirebase);
+  };
+
   return (
     <Modal
       visible={isVisible}
       style={styles.modalView}
       animationType="slide"
-      // animationIn="slideInUp"
-      // animationOut="slideOutDown"
-      // backdropColor={colors.white}
       onBackdropPress={onBackdropPress}>
       <View style={styles.container}>
         <SafeAreaView />
@@ -40,6 +52,7 @@ const LoginModal = ({isVisible, onBackdropPress, onClosePress}) => {
         <CommonButton
           isIcon
           source={icons.google}
+          onPress={onGooglePress}
           title={string.googleLogin}
           additionalBtnStyle={styles.googleBtn}
           additionalTitleStyle={styles.googleText}
@@ -57,9 +70,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: colors.white,
   },
-  // modalView: {
-  //   flex: 1,
-  // },
   closeBtn: {
     top: hp(5),
     right: wp(2.67),

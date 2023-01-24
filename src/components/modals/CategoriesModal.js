@@ -119,6 +119,18 @@ const CategoriesModal = ({isVisible, onBackPress, onRequestClose}) => {
             ItemSeparatorComponent={SeperatorView}
           />
         )}
+        <TouchableOpacity
+          style={{
+            height: 50,
+            backgroundColor: colors.white,
+            justifyContent: 'center',
+            width: '100%',
+            alignItems: 'center',
+          }}>
+          <Text style={{color: colors.black, fontSize: fontSize(16)}}>
+            {'+ Add new category'}
+          </Text>
+        </TouchableOpacity>
       </View>
     </Modal>
   );

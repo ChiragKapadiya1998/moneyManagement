@@ -5,7 +5,6 @@ import {
   Alert,
   Image,
   FlatList,
-  ScrollView,
   StyleSheet,
   SafeAreaView,
   TouchableOpacity,
@@ -33,6 +32,7 @@ const Home = () => {
   const dispatch = useDispatch();
 
   console.log('userData ======> ', userData);
+
   const today = moment(new Date()).format('DD/MM/YYYY');
 
   console.log('today', today);
@@ -54,7 +54,6 @@ const Home = () => {
   };
   const handleDetailsModal = item => {
     setDetailsModal(!detailsModal);
-    // console.log('ididididid', item?.id);
     setElementId(item?.id);
   };
   const handleExpenseModal = () => {
@@ -83,6 +82,19 @@ const Home = () => {
     return acc + Number(value.calculatedNumber);
   }, 0);
 
+  const listFooterComponent = () => {
+    return <View style={styles.listFooterStyle} />;
+  };
+
+  const noDataFoundComponent = () => {
+    return (
+      <View style={styles.noDataView}>
+        <Image source={icons.noData} style={styles.noDataImage} />
+        <Text style={styles.noDataText}>{string.noData}</Text>
+      </View>
+    );
+  };
+
   const onDeletePress = () => {
     return Alert.alert(
       'Are your sure?',
@@ -107,9 +119,6 @@ const Home = () => {
   };
 
   const sortByDate = userData?.sort((a, b) => {
-    // return b.selectedDate - a.selectedDate;
-    // console.log('a.....', moment(a.selectedDate).format(`YYYY-MM-DD`));
-    // console.log('b.....', moment(b.selectedDate).format(`YYYY-MM-DD`));
     return (
       moment(b.selectedDate).format(`YYYY-MM-DD`) -
       moment(a.selectedDate).format(`YYYY-MM-DD`)
@@ -124,7 +133,7 @@ const Home = () => {
 
   console.log('sortByDate....', sortedByDate);
 
-  const sortingData = Object.values(
+  const sortingData = Object?.values(
     sortedByDate?.reduce((acc, item) => {
       if (!acc[moment(item?.selectedDate).format(`DD-MM-YYYY`)]) {
         acc[moment(item?.selectedDate).format(`DD-MM-YYYY`)] = {
@@ -145,7 +154,6 @@ const Home = () => {
         <View style={styles.listBoxItem}>
           <View style={styles.boxTitleView}>
             <Text style={styles.boxHeaderText}>
-              {/* {moment(item.title).format('DD/MM')} */}
               {moment(item.title).format(`DD/MM/YYYY`)}
             </Text>
             <View style={styles.boxTitleSubView}>
@@ -178,25 +186,6 @@ const Home = () => {
           ))}
         </View>
       </Shadow>
-      // <Shadow>
-      //   <TouchableOpacity
-      //     key={item?.id}
-      //     style={styles.listItem}
-      //     onPress={() => handleDetailsModal(item)}>
-      //     <View style={{flexDirection: 'row'}}>
-      //       {/* <Image
-      //         source={userData?.elementIcon}
-      //         style={{width: 20, height: 20}}
-      //       /> */}
-      //       <Text style={{color: 'black'}}>{item?.element}</Text>
-      //     </View>
-      //     <Text style={{color: item?.category == 'income' ? 'green' : 'red'}}>
-      //       {item?.category === 'income'
-      //         ? item?.calculatedNumber
-      //         : '-' + item?.calculatedNumber}
-      //     </Text>
-      //   </TouchableOpacity>
-      // </Shadow>
     );
   };
 
@@ -213,7 +202,7 @@ const Home = () => {
         onLeftPress={() => openDrawer()}
         title={isMonth ? `${month?.name} ${year}` : `${month} ${year}`}
       />
-      {/* <ScrollView> */}
+
       <Shadow>
         <View style={styles.subView}>
           <TouchableOpacity style={styles.btnView}>
@@ -238,32 +227,18 @@ const Home = () => {
           <Text style={styles.warnText}>{string.warnText}</Text>
         </TouchableOpacity>
       </Shadow>
-      {/* {userData?.length !== 0 && ( */}
+
       <FlatList
+        key={item => item.id}
+        bounces={false}
         data={sortingData}
         renderItem={renderData}
         keyExtractor={item => item?.id}
         showsVerticalScrollIndicator={false}
-        ListFooterComponent={() => {
-          return <View style={{height: hp(12.5)}} />;
-        }}
-        ListEmptyComponent={() => {
-          return (
-            <View
-              style={{
-                justifyContent: 'center',
-                alignItems: 'center',
-                // backgroundColor: 'lightgrey',
-                flex: 1,
-                marginTop: 100,
-              }}>
-              <Text>{'No data found.'}</Text>
-            </View>
-          );
-        }}
+        ListFooterComponent={listFooterComponent}
+        ListEmptyComponent={noDataFoundComponent}
       />
-      {/* // )} */}
-      {/* </ScrollView> */}
+
       {calender && (
         <MonthYearPicker
           onChangeYear={text => setYear(text)}
@@ -373,19 +348,36 @@ const styles = StyleSheet.create({
     fontSize: fontSize(12),
   },
   SeperatorView: {
-    borderWidth: wp(0.05),
     width: '100%',
-    // marginHorizontal: wp(3),
+    borderWidth: wp(0.05),
     borderColor: colors.grey,
   },
   itemSeperatorView: {
-    borderWidth: wp(0.05),
     width: '100%',
     // marginLeft: wp(5),
+    borderWidth: wp(0.05),
     borderColor: colors.lightgrey,
   },
   boxHeaderText: {
-    fontSize: fontSize(11),
     color: colors.grey,
+    fontSize: fontSize(11),
+  },
+  listFooterStyle: {
+    height: hp(12.5),
+  },
+  noDataView: {
+    marginTop: hp(12),
+    alignItems: 'center',
+  },
+  noDataImage: {
+    width: wp(33),
+    height: wp(33),
+    resizeMode: 'contain',
+    tintColor: colors.grey,
+  },
+  noDataText: {
+    color: colors.grey,
+    marginTop: hp(1.23),
+    fontSize: fontSize(18),
   },
 });
