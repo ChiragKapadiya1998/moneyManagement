@@ -15,7 +15,7 @@ const DrawerNavigation = () => {
         headerShown: false,
         drawerType: 'front',
         // overlayColor: 'green',
-        // unmountOnBlur: true,
+        unmountOnBlur: true,
       }}>
       <Drawer.Screen name="Homes" component={Home} />
     </Drawer.Navigator>
